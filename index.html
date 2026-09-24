@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BELEBOTS – Useful Telegram bots</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { theme: { extend: {
-  fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'] },
+  fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'], btn: ['"Plus Jakarta Sans"','Montserrat','Helvetica','Arial','sans-serif'] },
   colors: { ink: '#050505', bele: '#E50914' }
 }}}
 </script>
 <style>
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
-  html { scroll-padding-top: 90px; }
+  html { scroll-padding-top: 100px; }
   body { background:#050505; color:#fff; font-family:'Montserrat',Helvetica,Arial,sans-serif; }
   @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
   .rise { opacity:0; animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
@@ -36,7 +36,7 @@ tailwind.config = { theme: { extend: {
 <header class="fixed top-0 inset-x-0 z-50 bg-ink/85 backdrop-blur" style="padding-top:env(safe-area-inset-top,0px)">
   <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4">
     <a href="#home" aria-label="BeleBots home" class="pill inline-flex items-center">
-      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-8 w-auto">
+      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-12 w-auto">
     </a>
     <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
       <a href="#bots" class="hover:text-bele transition-colors">Our Bots</a>
@@ -49,7 +49,7 @@ tailwind.config = { theme: { extend: {
 
 <main>
 <!-- Hero -->
-<section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 pt-32 sm:pt-40 pb-20">
+<section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 pt-36 sm:pt-44 pb-20">
   <div class="rise d1 inline-block bg-bele px-6 sm:px-10 py-3 sm:py-4">
     <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight">BELEBOTS</h1>
   </div>
@@ -60,16 +60,20 @@ tailwind.config = { theme: { extend: {
   <div class="mt-16 grid gap-10 sm:grid-cols-2 max-w-3xl">
     <div class="rise d3">
       <p class="font-extrabold text-xl sm:text-2xl leading-tight">NEWS<br><span class="font-medium">and updates:</span></p>
-      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-3 pr-8 py-3">
-        <span class="w-11 h-11 rounded-full bg-black text-white flex items-center justify-center text-lg"><i class="fa-brands fa-telegram"></i></span>
-        <span class="text-2xl sm:text-3xl font-semibold">@belebots</span>
+      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-2.5 pr-8 py-2.5">
+        <span class="w-14 h-14 rounded-full bg-black flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" class="w-8 h-8" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        </span>
+        <span class="font-btn text-2xl sm:text-3xl font-bold tracking-tight">@belebots</span>
       </a>
     </div>
     <div id="contact" class="rise d4">
       <p class="font-extrabold text-xl sm:text-2xl leading-tight">SUPPORT<br><span class="font-medium">and ask questions:</span></p>
-      <a href="https://t.me/Belebots_support" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-3 pr-8 py-3">
-        <span class="w-11 h-11 rounded-full bg-black text-white flex items-center justify-center text-lg"><i class="fa-brands fa-telegram"></i></span>
-        <span class="text-2xl sm:text-3xl font-semibold">@Belebots_support</span>
+      <a href="https://t.me/Belebots_support" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-2.5 pr-8 py-2.5">
+        <span class="w-14 h-14 rounded-full bg-black flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" class="w-8 h-8" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        </span>
+        <span class="font-btn text-2xl sm:text-3xl font-bold tracking-tight">@Belebots_support</span>
       </a>
     </div>
   </div>
@@ -79,12 +83,12 @@ tailwind.config = { theme: { extend: {
 <section id="bots" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
   <div class="reveal text-center">
     <h2 class="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.15] tracking-tight">
-      OUR<br>COLLECTION<br>OF <span class="text-bele">BOTS</span> <img src="https://i.postimg.cc/25jPv2CW/Logobelebots.png" alt="BeleBots Icon" class="h-10 w-auto inline-block" style="margin-left:.5rem;vertical-align:middle">
+      OUR<br>COLLECTION<br>OF <span class="text-bele">BOTS</span> <img src="https://i.postimg.cc/25jPv2CW/Logobelebots.png" alt="BeleBots Icon" class="h-[60px] w-auto inline-block" style="margin-left:.5rem;vertical-align:middle">
     </h2>
   </div>
 
   <article class="reveal pill glow mt-16 max-w-md mx-auto sm:mx-0 sm:ml-0 rounded-3xl border border-white/15 bg-white/[0.03] p-6 sm:p-8">
-    <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" class="w-16 h-16 rounded-2xl object-cover">
+    <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" class="w-24 h-24 rounded-2xl object-cover">
     <h3 class="mt-6 text-4xl sm:text-5xl font-black tracking-tight">Save it</h3>
     <p class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed">
       Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
@@ -101,7 +105,7 @@ tailwind.config = { theme: { extend: {
   </div>
   <ul class="reveal mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
     <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://tiktok.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok text-2xl w-7 text-center"></i><span class="font-semibold">TikTok</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-2xl w-7 text-center"></i><span class="font-semibold">X / Twitter</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-2xl w-7 text-center"></i><span class="font-semibold">X</span></a></li>
     <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-2xl w-7 text-center"></i><span class="font-semibold">Instagram</span></a></li>
     <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-2xl w-7 text-center"></i><span class="font-semibold">Facebook</span></a></li>
     <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-2xl w-7 text-center"></i><span class="font-semibold">Threads</span></a></li>
