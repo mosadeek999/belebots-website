@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BELEBOTS – Useful Telegram bots</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'] },
+  colors: { ink: '#050505', bele: '#E50914' }
+}}}
+</script>
+<style>
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
+  html { scroll-padding-top: 90px; }
+  body { background:#050505; color:#fff; font-family:'Montserrat',Helvetica,Arial,sans-serif; }
+  @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+  .rise { opacity:0; animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity:1; transform:none; }
+  .pill { transition: transform .25s ease, box-shadow .25s ease; }
+  .pill:hover { transform: scale(1.05); box-shadow: 0 0 32px rgba(255,255,255,.28); }
+  .pill:active { transform: scale(.97); }
+  .glow:hover { box-shadow: 0 0 36px rgba(229,9,20,.55); border-color:#E50914; }
+  a:focus-visible, button:focus-visible { outline:3px solid #E50914; outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce) { .rise,.reveal { animation:none; opacity:1; transform:none; transition:none; } html{scroll-behavior:auto} }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- Header -->
+<header class="fixed top-0 inset-x-0 z-50 bg-ink/85 backdrop-blur" style="padding-top:env(safe-area-inset-top,0px)">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4">
+    <a href="#home" aria-label="BeleBots home" class="pill inline-flex items-center">
+      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-8 w-auto">
+    </a>
+    <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
+      <a href="#bots" class="hover:text-bele transition-colors">Our Bots</a>
+      <a href="#contact" class="hover:text-bele transition-colors">Contact Us</a>
+      <button class="lang w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-black font-bold text-sm border-2 border-white pill" aria-pressed="true">EN</button>
+      <button class="lang w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-transparent text-white font-bold text-sm border-2 border-white pill" aria-pressed="false">RU</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- Hero -->
+<section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 pt-32 sm:pt-40 pb-20">
+  <div class="rise d1 inline-block bg-bele px-6 sm:px-10 py-3 sm:py-4">
+    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight">BELEBOTS</h1>
+  </div>
+  <p class="rise d2 mt-10 max-w-3xl text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.35]">
+    Useful Telegram bots for work, creativity and everyday needs.
+  </p>
+
+  <div class="mt-16 grid gap-10 sm:grid-cols-2 max-w-3xl">
+    <div class="rise d3">
+      <p class="font-extrabold text-xl sm:text-2xl leading-tight">NEWS<br><span class="font-medium">and updates:</span></p>
+      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-3 pr-8 py-3">
+        <span class="w-11 h-11 rounded-full bg-black text-white flex items-center justify-center text-lg"><i class="fa-brands fa-telegram"></i></span>
+        <span class="text-2xl sm:text-3xl font-semibold">@belebots</span>
+      </a>
+    </div>
+    <div id="contact" class="rise d4">
+      <p class="font-extrabold text-xl sm:text-2xl leading-tight">SUPPORT<br><span class="font-medium">and ask questions:</span></p>
+      <a href="https://t.me/Belebots_support" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-3 pr-8 py-3">
+        <span class="w-11 h-11 rounded-full bg-black text-white flex items-center justify-center text-lg"><i class="fa-brands fa-telegram"></i></span>
+        <span class="text-2xl sm:text-3xl font-semibold">@Belebots_support</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Collection -->
+<section id="bots" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+  <div class="reveal text-center">
+    <h2 class="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.15] tracking-tight">
+      OUR<br>COLLECTION<br>OF <span class="text-bele">BOTS</span> <img src="https://i.postimg.cc/25jPv2CW/Logobelebots.png" alt="BeleBots Icon" class="h-10 w-auto inline-block" style="margin-left:.5rem;vertical-align:middle">
+    </h2>
+  </div>
+
+  <article class="reveal pill glow mt-16 max-w-md mx-auto sm:mx-0 sm:ml-0 rounded-3xl border border-white/15 bg-white/[0.03] p-6 sm:p-8">
+    <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" class="w-16 h-16 rounded-2xl object-cover">
+    <h3 class="mt-6 text-4xl sm:text-5xl font-black tracking-tight">Save it</h3>
+    <p class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed">
+      Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
+    </p>
+    <a href="https://t.me/Save_it_belebot" target="_blank" rel="noopener" class="pill mt-8 inline-block bg-white text-black rounded-full px-10 py-4 text-lg sm:text-xl font-semibold">Open in Telegram</a>
+  </article>
+</section>
+
+<!-- Social -->
+<section id="social" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+  <div class="reveal">
+    <h2 class="text-3xl sm:text-5xl font-black tracking-tight">Follow BeleBots</h2>
+    <p class="mt-3 text-white/70 text-lg">Find us everywhere as <span class="text-white font-semibold">@belebots</span>.</p>
+  </div>
+  <ul class="reveal mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://tiktok.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok text-2xl w-7 text-center"></i><span class="font-semibold">TikTok</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-2xl w-7 text-center"></i><span class="font-semibold">X / Twitter</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-2xl w-7 text-center"></i><span class="font-semibold">Instagram</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-2xl w-7 text-center"></i><span class="font-semibold">Facebook</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-2xl w-7 text-center"></i><span class="font-semibold">Threads</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://youtube.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-youtube text-2xl w-7 text-center"></i><span class="font-semibold">YouTube</span></a></li>
+    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://linkedin.com/company/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in text-2xl w-7 text-center"></i><span class="font-semibold">LinkedIn</span></a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="max-w-6xl mx-auto px-5 sm:px-8 py-12 border-t border-white/10 text-white/50 text-sm">
+  © 2026 BELEBOTS. All rights reserved.
+</footer>
+
+<script>
+  // Language pills (visual toggle)
+  var langs = document.querySelectorAll('.lang');
+  langs.forEach(function(b){ b.addEventListener('click', function(){
+    langs.forEach(function(o){
+      var on = o === b;
+      o.setAttribute('aria-pressed', on);
+      o.classList.toggle('bg-white', on); o.classList.toggle('text-black', on);
+      o.classList.toggle('bg-transparent', !on); o.classList.toggle('text-white', !on);
+    });
+  });});
+
+  // Scroll reveal
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+</body>
+</html>
