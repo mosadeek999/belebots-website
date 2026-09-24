@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BELEBOTS – Useful Telegram bots</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { theme: { extend: {
-  fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'], btn: ['"Plus Jakarta Sans"','Montserrat','Helvetica','Arial','sans-serif'] },
+  fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'] },
   colors: { ink: '#050505', bele: '#E50914' }
 }}}
 </script>
@@ -27,6 +27,19 @@ tailwind.config = { theme: { extend: {
   .pill:active { transform: scale(.97); }
   .glow:hover { box-shadow: 0 0 36px rgba(229,9,20,.55); border-color:#E50914; }
   a:focus-visible, button:focus-visible { outline:3px solid #E50914; outline-offset:3px; }
+
+  /* Telegram link buttons: everything scales with font-size (em units) */
+  .tg {
+    display:inline-flex; align-items:center; gap:.47em;
+    background:#fff; color:#000; border-radius:9999px;
+    padding:.4em .8em .4em .45em;
+    font-family:'Outfit','Montserrat',Helvetica,Arial,sans-serif;
+    font-weight:600; letter-spacing:-.01em; line-height:1;
+    font-size:clamp(20px, 6vw, 34px);
+  }
+  .tg .ic { width:1.33em; height:1.33em; border-radius:9999px; background:#000; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .tg .ic svg { width:58%; height:58%; }
+
   @media (prefers-reduced-motion: reduce) { .rise,.reveal { animation:none; opacity:1; transform:none; transition:none; } html{scroll-behavior:auto} }
 </style>
 </head>
@@ -57,23 +70,23 @@ tailwind.config = { theme: { extend: {
     Useful Telegram bots for work, creativity and everyday needs.
   </p>
 
-  <div class="mt-16 grid gap-10 sm:grid-cols-2 max-w-3xl">
+  <div class="mt-16 flex flex-col gap-10 max-w-3xl">
     <div class="rise d3">
       <p class="font-extrabold text-xl sm:text-2xl leading-tight">NEWS<br><span class="font-medium">and updates:</span></p>
-      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-2.5 pr-8 py-2.5">
-        <span class="w-14 h-14 rounded-full bg-black flex items-center justify-center shrink-0">
-          <svg viewBox="0 0 24 24" class="w-8 h-8" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill glow mt-5">
+        <span class="ic">
+          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><g transform="translate(24,0) scale(-1,1)"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></g></svg>
         </span>
-        <span class="font-btn text-2xl sm:text-3xl font-bold tracking-tight">@belebots</span>
+        <span>@belebots</span>
       </a>
     </div>
     <div id="contact" class="rise d4">
       <p class="font-extrabold text-xl sm:text-2xl leading-tight">SUPPORT<br><span class="font-medium">and ask questions:</span></p>
-      <a href="https://t.me/Belebots_support" target="_blank" rel="noopener" class="pill glow mt-5 inline-flex items-center gap-4 bg-white text-black rounded-full pl-2.5 pr-8 py-2.5">
-        <span class="w-14 h-14 rounded-full bg-black flex items-center justify-center shrink-0">
-          <svg viewBox="0 0 24 24" class="w-8 h-8" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      <a href="https://t.me/Belebots_support" target="_blank" rel="noopener" class="tg pill glow mt-5">
+        <span class="ic">
+          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><g transform="translate(24,0) scale(-1,1)"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></g></svg>
         </span>
-        <span class="font-btn text-2xl sm:text-3xl font-bold tracking-tight">@Belebots_support</span>
+        <span>@Belebots_support</span>
       </a>
     </div>
   </div>
