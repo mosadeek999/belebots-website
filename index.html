@@ -50,25 +50,56 @@ tailwind.config = { theme: { extend: {
       font-display: swap;
   }
 
-  /* تطبيق الخط على الموقع عندما تكون اللغة عربية */
-  html[dir="rtl"] {
+  /* تطبيق الخط العربي على عناصر النص فقط دون قلب اتجاه الصفحة بالكامل */
+  [dir="rtl"] {
       font-family: 'SF Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      unicode-bidi: isolate;
   }
 
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
   html { scroll-padding-top: 100px; }
   body { background:#050505; color:#fff; font-family:'Montserrat',Helvetica,Arial,sans-serif; }
   
+  * { transition-timing-function: cubic-bezier(.22,.85,.32,1); }
+
   @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
-  .rise { opacity:0; animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .rise { opacity:0; animation: rise .9s cubic-bezier(.16,.84,.24,1) forwards; }
   .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
-  .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal { opacity:0; transform:translateY(28px) scale(.985); transition:opacity .9s cubic-bezier(.16,.84,.24,1), transform .9s cubic-bezier(.16,.84,.24,1); }
   .reveal.in { opacity:1; transform:none; }
-  .pill { transition: transform .25s ease, box-shadow .25s ease; }
-  .pill:hover { transform: scale(1.05); box-shadow: 0 0 32px rgba(255,255,255,.28); }
-  .pill:active { transform: scale(.97); }
+  .pill { transition: transform .35s cubic-bezier(.22,.85,.32,1), box-shadow .35s ease, background-color .35s ease, border-color .35s ease; will-change: transform; }
+  .pill:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,.22); }
+  .pill:active { transform: scale(.96); transition-duration:.12s; }
+  .glow { position:relative; }
   .glow:hover { box-shadow: 0 0 36px rgba(229,9,20,.55); border-color:#E50914; }
   a:focus-visible, button:focus-visible { outline:3px solid #E50914; outline-offset:3px; }
+
+  nav a { position:relative; }
+  nav a[href]:not(#lang-btn)::after {
+    content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px;
+    background:#E50914; transition:width .3s cubic-bezier(.22,.85,.32,1);
+  }
+  nav a[href]:hover::after { width:100%; }
+
+  /* توهّج نابض على أزرار الروابط الرئيسية (مثل "افتح في تيليجرام") لتوضيح أنها قابلة للنقر */
+  @keyframes cta-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,.0), 0 4px 18px rgba(255,255,255,.12); }
+    50% { box-shadow: 0 0 26px 4px rgba(255,255,255,.38), 0 4px 18px rgba(255,255,255,.18); }
+  }
+  .cta-pulse { animation: cta-glow 2.6s ease-in-out infinite; }
+  .cta-pulse:hover { animation-play-state: paused; }
+
+  @keyframes tg-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(229,9,20,0), 0 4px 16px rgba(0,0,0,.25); }
+    50% { box-shadow: 0 0 22px 3px rgba(229,9,20,.45), 0 4px 16px rgba(0,0,0,.25); }
+  }
+  .tg-pulse { animation: tg-glow 2.6s ease-in-out infinite; }
+  .tg-pulse:hover { animation-play-state: paused; }
+
+  .social-card { transition: transform .3s cubic-bezier(.22,.85,.32,1), box-shadow .3s ease, background-color .3s ease, border-color .3s ease; }
+  .social-card:hover { background-color: rgba(255,255,255,.06); }
+  .social-card i { transition: transform .3s cubic-bezier(.22,.85,.32,1), color .3s ease; }
+  .social-card:hover i { transform: scale(1.15) rotate(-6deg); color:#E50914; }
 
   .tg {
     display:inline-flex; align-items:center; gap:.47em;
@@ -117,16 +148,20 @@ tailwind.config = { theme: { extend: {
       #FCDD09 88.889%, #FCDD09 100%) !important;
   }
 
-  /* زر اللغة: أيقونة كروية ثابتة الحجم لضمان عدم خروجها عن حدود الشاشة على الجوال */
+  /* زر اللغة: أيقونة كرة أرضية + سهم منسدل، بحجم ثابت لا يخرج عن حدود الشاشة على الجوال */
   #lang-btn {
-    width: 2.75rem;
     height: 2.75rem;
-    padding: 0 !important;
-    font-size: 1.15rem;
+    padding: 0 .85rem !important;
+    gap: .4rem;
     line-height: 1;
   }
-  #lang-btn-text { font-size: 1.2em; line-height: 1; }
+  #lang-btn svg { flex-shrink: 0; }
+  #lang-arrow { transition: transform .3s cubic-bezier(.22,.85,.32,1); }
   .lang-wrap { max-width: calc(100vw - 2.5rem); }
+
+  /* بطاقات التواصل الاجتماعي: تمنع اقتطاع النص على الجوال */
+  .social-card { min-width: 0; }
+  .social-card span { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 
   @media (prefers-reduced-motion: reduce) { .rise,.reveal { animation:none; opacity:1; transform:none; transition:none; } html{scroll-behavior:auto} }
 </style>
@@ -146,10 +181,17 @@ tailwind.config = { theme: { extend: {
       <!-- زر اللغة: أيقونة الكرة الأرضية فقط، بحجم ثابت لا يخرج أبداً عن حدود الشاشة على الجوال -->
       <div class="lang-wrap relative inline-block text-left shrink-0">
         <button id="lang-btn" class="bg-white text-black font-bold rounded-full border-2 border-white pill flex items-center justify-center glow cursor-pointer shrink-0" aria-expanded="false" aria-haspopup="true" aria-label="Language">
-          <span id="lang-btn-text" aria-hidden="true">🌐</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"></path>
+          </svg>
+          <svg id="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
         </button>
 
-        <div id="lang-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-52 max-w-[calc(100vw-2.5rem)] bg-[#1a1a1a] border border-white/20 rounded-2xl shadow-2xl backdrop-blur-lg overflow-hidden z-50 py-2 max-h-80 overflow-y-auto">
+        <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-52 max-w-[calc(100vw-2.5rem)] bg-[#1a1a1a] border border-white/20 rounded-2xl shadow-2xl backdrop-blur-lg z-50 py-2 max-h-80 overflow-y-auto origin-top-right opacity-0 scale-95 transition-[opacity,transform] duration-200 ease-out">
           
           <!-- English -->
           <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="en">
@@ -195,7 +237,7 @@ tailwind.config = { theme: { extend: {
 
           <!-- Catalan -->
           <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="ca">
-            <div class="flex items-center gap-3"><span class="fi fi-ca-senyera" aria-label="Senyera flag"></span> català</div>
+            <div class="flex items-center gap-3"><span class="fi fi-ca-senyera" aria-label="Senyera flag"></span> Català</div>
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
@@ -257,7 +299,7 @@ tailwind.config = { theme: { extend: {
         <span data-i18n="newsTitle">NEWS</span><br>
         <span data-i18n="newsSub" class="font-medium">and updates:</span>
       </p>
-      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill glow mt-5">
+      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill glow tg-pulse mt-5">
         <span class="ic">
           <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </span>
@@ -269,11 +311,11 @@ tailwind.config = { theme: { extend: {
         <span data-i18n="supportTitle">SUPPORT</span><br>
         <span data-i18n="supportSub" class="font-medium">and ask questions:</span>
       </p>
-      <a href="https://t.me/Belebots_support" target="_blank" rel="noopener" class="tg pill glow mt-5">
+      <a href="https://t.me/belebots_support" target="_blank" rel="noopener" class="tg pill glow tg-pulse mt-5">
         <span class="ic">
           <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </span>
-        <span>@Belebots_support</span>
+        <span>@belebots_support</span>
       </a>
     </div>
   </div>
@@ -296,7 +338,7 @@ tailwind.config = { theme: { extend: {
     <p data-i18n="saveItDesc" class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed break-words">
       Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
     </p>
-    <a href="https://t.me/Save_it_belebot" target="_blank" rel="noopener" data-i18n="saveItBtn" class="pill mt-8 inline-block bg-white text-black rounded-full px-10 py-4 text-lg sm:text-xl font-semibold shrink-0">Open in Telegram</a>
+    <a href="https://t.me/Save_it_belebot" target="_blank" rel="noopener" data-i18n="saveItBtn" class="pill cta-pulse mt-8 inline-block bg-white text-black rounded-full px-10 py-4 text-lg sm:text-xl font-semibold shrink-0">Open in Telegram</a>
   </article>
 </section>
 
@@ -306,14 +348,14 @@ tailwind.config = { theme: { extend: {
     <h2 data-i18n="socialTitle" class="text-3xl sm:text-5xl font-black tracking-tight break-words">Follow BeleBots</h2>
     <p data-i18n="socialSub" class="mt-3 text-white/70 text-lg break-words">Find us everywhere as <span class="text-white font-semibold">@belebots</span>.</p>
   </div>
-  <ul class="reveal mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://tiktok.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">TikTok</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">X</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">Instagram</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">Facebook</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">Threads</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://youtube.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-youtube text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">YouTube</span></a></li>
-    <li><a class="pill glow flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-5 py-4" href="https://linkedin.com/company/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in text-2xl w-7 text-center shrink-0"></i><span class="font-semibold truncate">LinkedIn</span></a></li>
+  <ul class="reveal mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://tiktok.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">TikTok</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">X</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Instagram</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Facebook</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Threads</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://youtube.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-youtube text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">YouTube</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://linkedin.com/company/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">LinkedIn</span></a></li>
   </ul>
 </section>
 </main>
@@ -446,44 +488,63 @@ tailwind.config = { theme: { extend: {
   const langDropdown = document.getElementById('lang-dropdown');
   const langArrow = document.getElementById('lang-arrow');
 
+  function openDropdown() {
+    langDropdown.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      langDropdown.classList.remove('opacity-0', 'scale-95');
+      langDropdown.classList.add('opacity-100', 'scale-100');
+    });
+    langArrow.style.transform = 'rotate(180deg)';
+    langBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeDropdown() {
+    langDropdown.classList.add('opacity-0', 'scale-95');
+    langDropdown.classList.remove('opacity-100', 'scale-100');
+    if (langArrow) langArrow.style.transform = 'rotate(0deg)';
+    if (langBtn) langBtn.setAttribute('aria-expanded', 'false');
+    setTimeout(() => {
+      if (langDropdown.classList.contains('opacity-0')) langDropdown.classList.add('hidden');
+    }, 200);
+  }
+
   langBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const isHidden = langDropdown.classList.contains('hidden');
-    if (isHidden) {
-      langDropdown.classList.remove('hidden');
-      langArrow.style.transform = 'rotate(180deg)';
-      langBtn.setAttribute('aria-expanded', 'true');
-    } else {
-      langDropdown.classList.add('hidden');
-      langArrow.style.transform = 'rotate(0deg)';
-      langBtn.setAttribute('aria-expanded', 'false');
-    }
+    if (isHidden) { openDropdown(); } else { closeDropdown(); }
   });
 
   document.addEventListener('click', (e) => {
     if (!langDropdown.contains(e.target) && !langBtn.contains(e.target)) {
-      langDropdown.classList.add('hidden');
-      if (langArrow) langArrow.style.transform = 'rotate(0deg)';
-      if (langBtn) langBtn.setAttribute('aria-expanded', 'false');
+      closeDropdown();
     }
   });
 
   function setLanguage(lang) {
     const data = translations[lang] || translations['en'];
+    const isAr = lang === 'ar';
+
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (data[key] !== undefined) {
         el.innerHTML = data[key];
       }
+      // نضبط اتجاه النص العربي على مستوى العنصر نفسه فقط، دون قلب اتجاه الصفحة بالكامل
+      // حتى يبقى التخطيط الهيكلي (المحاذاة، ترتيب العناصر) كما هو تماماً.
+      if (isAr) {
+        el.setAttribute('dir', 'rtl');
+        el.setAttribute('lang', 'ar');
+      } else {
+        el.removeAttribute('dir');
+        el.removeAttribute('lang');
+      }
     });
 
-    if (lang === 'ar') {
-      document.documentElement.dir = 'rtl';
-    } else {
-      document.documentElement.dir = 'ltr';
-    }
+    // اتجاه الصفحة ككل يبقى ثابتاً (LTR) دائماً — لا قلب كامل للتخطيط عند اختيار العربية
+    document.documentElement.dir = 'ltr';
+    document.documentElement.lang = lang;
 
-    // تحديث الوصف الصوتي (aria-label) للزر ليتوافق مع اللغة المختارة، مع إبقاء أيقونة الكرة الأرضية 🌐 كما هي
+    // تحديث الوصف الصوتي (aria-label) للزر ليتوافق مع اللغة المختارة
     if (langBtn && buttonTranslations[lang]) {
         langBtn.setAttribute('aria-label', buttonTranslations[lang]);
     }
@@ -505,9 +566,7 @@ tailwind.config = { theme: { extend: {
     btn.addEventListener('click', function() {
       const lang = this.getAttribute('data-lang');
       setLanguage(lang);
-      langDropdown.classList.add('hidden');
-      if (langArrow) langArrow.style.transform = 'rotate(0deg)';
-      if (langBtn) langBtn.setAttribute('aria-expanded', 'false');
+      closeDropdown();
     });
   });
 
