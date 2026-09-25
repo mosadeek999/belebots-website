@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Outfit:wght@500;600;700;900&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@600;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- Flag Icons CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
@@ -37,19 +37,30 @@ tailwind.config = { theme: { extend: {
 </script>
 
 <style>
-  /* تطبيق خط Noto Sans Arabic بوزن 900 على كل النصوص العربية دون قلب اتجاه الصفحة بالكامل */
-  [dir="rtl"],
-  [lang="ar"],
-  [dir="rtl"] *,
-  [lang="ar"] * {
+  /* تطبيق خط Noto Sans Arabic على النصوص العربية فقط (600 عادي / 900 للعناوين) - مع استثناء الأيقونات */
+  [dir="rtl"] :not(i):not([class*="fa-"]),
+  [lang="ar"] :not(i):not([class*="fa-"]) {
       font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      font-weight: 900 !important;
+      font-weight: 600 !important;
   }
   [dir="rtl"] { unicode-bidi: isolate; }
 
-  /* وزن أقصى (900) على كل نصوص الموقع لتصميم عريض جداً ومتّسق */
-  html, body, h1, h2, h3, h4, h5, h6, p, a, button, span, div, li, label, nav,
-  input, textarea, select {
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+  [dir="rtl"] .ultra-bold, [dir="rtl"] strong, [dir="rtl"] b,
+  [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
+  [lang="ar"] .ultra-bold, [lang="ar"] strong, [lang="ar"] b {
+      font-weight: 900 !important;
+  }
+
+  /* إصلاح تعطّل أيقونات التواصل الاجتماعي في الوضع العربي: إبقاء خط Font Awesome كما هو */
+  [dir="rtl"] i[class*="fa-"], [lang="ar"] i[class*="fa-"] {
+      font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free" !important;
+      font-weight: 400 !important;
+      direction: ltr;
+      display: inline-block;
+  }
+  [dir="rtl"] i.fa-solid[class*="fa-"], [lang="ar"] i.fa-solid[class*="fa-"] {
+      font-family: "Font Awesome 6 Free" !important;
       font-weight: 900 !important;
   }
 
