@@ -37,22 +37,23 @@ tailwind.config = { theme: { extend: {
 </script>
 
 <style>
-  /* تطبيق خط Noto Sans Arabic على عناصر النص العربي فقط دون قلب اتجاه الصفحة بالكامل */
-  /* Base weight 600 for regular Arabic body text */
-  [dir="rtl"],
-  [lang="ar"] {
+  /* تطبيق خط Noto Sans Arabic حصرياً على نص الترجمة العربية الفعلي (data-i18n مع lang="ar") */
+  /* لا يُطبَّق هذا الخط أبداً بشكل عام عبر [dir="rtl"] أو [lang="ar"] وحدها، حتى لا يتسرّب إلى */
+  /* أسماء العلامة التجارية أو المعرّفات أو الأيقونات أو أي عنصر غير مترجم. */
+  [data-i18n][lang="ar"] {
       font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      font-weight: 600 !important;
+      font-weight: 900 !important;
       unicode-bidi: isolate;
   }
 
-  /* Weight 900 for bold/strong/headings within Arabic text */
-  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
-  [dir="rtl"] b, [dir="rtl"] strong,
-  [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
-  [lang="ar"] b, [lang="ar"] strong {
-      font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      font-weight: 900 !important;
+  /* أي محتوى مضمّن داخل نص الترجمة العربية لا يُفترض تعريبه (اسم العلامة التجارية، المعرّف @belebots، */
+  /* الأرقام، الرموز) يُغلَّف بهذا الصنف في كائن الترجمات ليستعيد خطه ووزنه الطبيعيين، دون أن يفلت من نطاق الأب. */
+  [data-i18n][lang="ar"] .i18n-latin {
+      font-family: 'Montserrat', 'Outfit', Helvetica, Arial, sans-serif !important;
+      font-weight: 600 !important;
+      unicode-bidi: plaintext;
+      direction: ltr;
+      display: inline-block;
   }
 
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
@@ -409,7 +410,7 @@ tailwind.config = { theme: { extend: {
       newsTitle: "الأخبار", newsSub: "والتحديثات:", supportTitle: "الدعم الفني", supportSub: "وطرح الأسئلة:",
       collOur: "مجموعتنا", collCollection: "من", collOf: "البوتات", collBots: "المتميزة",
       saveItDesc: "بحث عميق في المتاجر الإلكترونية لاكتشاف الخصومات المخفية ومقارنة الأسعار وتوفير المال في كل عملية شراء.", saveItBtn: "افتح في تيليجرام",
-      socialTitle: "تابع BeleBots", socialSub: 'تجدنا في كل مكان تحت اسم <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. جميع الحقوق محفوظة."
+      socialTitle: 'تابع <span class="i18n-latin">BeleBots</span>', socialSub: 'تجدنا في كل مكان تحت اسم <span class="text-white font-semibold i18n-latin">@belebots</span>.', footer: '<span class="i18n-latin">© 2026 BELEBOTS.</span> جميع الحقوق محفوظة.'
     },
     de: {
       navBots: "Unsere Bots", navContact: "Kontakt", heroDesc: "Nützliche Telegram-Bots für Arbeit, Kreativität und alltägliche Bedürfnisse.",
