@@ -21,6 +21,9 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@600;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- Flag Icons CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
@@ -34,26 +37,22 @@ tailwind.config = { theme: { extend: {
 </script>
 
 <style>
-  /* 1. استدعاء وتضمين خط Apple San Francisco العربي لجميع الأجهزة */
-  @font-face {
-      font-family: 'SF Arabic';
-      src: url('https://fonts.cdnfonts.com/s/73119/SFArabic.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-  }
-  @font-face {
-      font-family: 'SF Arabic';
-      src: url('https://fonts.cdnfonts.com/s/73119/SFArabicBold.woff') format('woff');
-      font-weight: bold;
-      font-style: normal;
-      font-display: swap;
+  /* تطبيق خط Noto Sans Arabic على عناصر النص العربي فقط دون قلب اتجاه الصفحة بالكامل */
+  /* Base weight 600 for regular Arabic body text */
+  [dir="rtl"],
+  [lang="ar"] {
+      font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      font-weight: 600 !important;
+      unicode-bidi: isolate;
   }
 
-  /* تطبيق الخط العربي على عناصر النص فقط دون قلب اتجاه الصفحة بالكامل */
-  [dir="rtl"] {
-      font-family: 'SF Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      unicode-bidi: isolate;
+  /* Weight 900 for bold/strong/headings within Arabic text */
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+  [dir="rtl"] b, [dir="rtl"] strong,
+  [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
+  [lang="ar"] b, [lang="ar"] strong {
+      font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      font-weight: 900 !important;
   }
 
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
