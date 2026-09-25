@@ -20,10 +20,10 @@
 <meta name="author" content="BeleBots">
 <meta name="robots" content="index, follow, max-image-preview:large">
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Outfit:wght@500;600;700;900&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@600;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- Flag Icons CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
@@ -37,22 +37,32 @@ tailwind.config = { theme: { extend: {
 </script>
 
 <style>
-  /* تطبيق خط Noto Sans Arabic على عناصر النص العربي فقط دون قلب اتجاه الصفحة بالكامل */
-  /* Base weight 600 for regular Arabic body text */
+  /* تطبيق خط Noto Sans Arabic بوزن 900 على كل النصوص العربية دون قلب اتجاه الصفحة بالكامل */
   [dir="rtl"],
-  [lang="ar"] {
-      font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      font-weight: 600 !important;
-      unicode-bidi: isolate;
-  }
-
-  /* Weight 900 for bold/strong/headings within Arabic text */
-  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
-  [dir="rtl"] b, [dir="rtl"] strong,
-  [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
-  [lang="ar"] b, [lang="ar"] strong {
+  [lang="ar"],
+  [dir="rtl"] *,
+  [lang="ar"] * {
       font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
       font-weight: 900 !important;
+  }
+  [dir="rtl"] { unicode-bidi: isolate; }
+
+  /* وزن أقصى (900) على كل نصوص الموقع لتصميم عريض جداً ومتّسق */
+  html, body, h1, h2, h3, h4, h5, h6, p, a, button, span, div, li, label, nav,
+  input, textarea, select {
+      font-weight: 900 !important;
+  }
+
+  /* تأثير إضافي للعناوين الكبيرة والرئيسية ليبدو الخط أثقل وأكثر صلابة من 900 العادي */
+  .ultra-bold {
+      font-weight: 900 !important;
+      -webkit-text-stroke: 1px currentColor;
+      text-stroke: 1px currentColor;
+      text-shadow: 0.6px 0 currentColor, -0.6px 0 currentColor, 0 0.6px currentColor, 0 -0.6px currentColor;
+      letter-spacing: -.01em;
+  }
+  @media (min-width: 640px) {
+      .ultra-bold { -webkit-text-stroke: 1.5px currentColor; text-shadow: 0.9px 0 currentColor, -0.9px 0 currentColor, 0 0.9px currentColor, 0 -0.9px currentColor; }
   }
 
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
@@ -88,13 +98,6 @@ tailwind.config = { theme: { extend: {
   .cta-pulse { animation: cta-glow 2.6s ease-in-out infinite; }
   .cta-pulse:hover { animation-play-state: paused; }
 
-  @keyframes tg-glow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(229,9,20,0), 0 4px 16px rgba(0,0,0,.25); }
-    50% { box-shadow: 0 0 22px 3px rgba(229,9,20,.45), 0 4px 16px rgba(0,0,0,.25); }
-  }
-  .tg-pulse { animation: tg-glow 2.6s ease-in-out infinite; }
-  .tg-pulse:hover { animation-play-state: paused; }
-
   .social-card { transition: transform .3s cubic-bezier(.22,.85,.32,1), box-shadow .3s ease, background-color .3s ease, border-color .3s ease; }
   .social-card:hover { background-color: rgba(255,255,255,.06); }
   .social-card i { transition: transform .3s cubic-bezier(.22,.85,.32,1), color .3s ease; }
@@ -105,7 +108,7 @@ tailwind.config = { theme: { extend: {
     background:#fff; color:#000; border-radius:9999px;
     padding:.4em .8em .4em .45em;
     font-family:'Outfit','Montserrat',Helvetica,Arial,sans-serif;
-    font-weight:600; letter-spacing:-.01em; line-height:1;
+    font-weight:900; letter-spacing:-.01em; line-height:1;
     font-size:clamp(20px, 6vw, 34px);
     flex-shrink: 0 !important;
   }
@@ -149,18 +152,19 @@ tailwind.config = { theme: { extend: {
 
   /* زر اللغة: أيقونة كرة أرضية + سهم منسدل، بحجم ثابت لا يخرج عن حدود الشاشة على الجوال */
   #lang-btn {
-    height: 2.75rem;
-    padding: 0 .85rem !important;
-    gap: .4rem;
+    height: 2.5rem;
+    padding: 0 .75rem !important;
+    gap: .35rem;
     line-height: 1;
+    margin-left: .15rem;
   }
   #lang-btn svg { flex-shrink: 0; }
   #lang-arrow { transition: transform .3s cubic-bezier(.22,.85,.32,1); }
-  .lang-wrap { max-width: calc(100vw - 2.5rem); }
+  .lang-wrap { max-width: calc(100vw - 2.5rem); display: flex; align-items: center; }
 
   /* بطاقات التواصل الاجتماعي: تمنع اقتطاع النص على الجوال */
   .social-card { min-width: 0; }
-  .social-card span { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+  .social-card span { min-width: 0; flex: 1 1 auto; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
 
   @media (prefers-reduced-motion: reduce) { .rise,.reveal { animation:none; opacity:1; transform:none; transition:none; } html{scroll-behavior:auto} }
 </style>
@@ -169,11 +173,11 @@ tailwind.config = { theme: { extend: {
 
 <!-- Header -->
 <header class="fixed top-0 inset-x-0 z-50 bg-ink/85 backdrop-blur" style="padding-top:env(safe-area-inset-top,0px)">
-  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4 gap-4">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4 gap-2">
     <a href="#home" aria-label="BeleBots home" class="inline-flex items-center shrink-0">
       <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-12 w-auto shrink-0" style="transform:translate(-13%, -9%)">
     </a>
-    <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
+    <nav class="flex items-center gap-1.5 sm:gap-3 text-sm sm:text-base font-medium">
       <a href="#bots" data-i18n="navBots" class="hover:text-bele transition-colors shrink-0">Our Bots</a>
       <a href="#contact" data-i18n="navContact" class="hover:text-bele transition-colors shrink-0">Contact Us</a>
 
@@ -191,46 +195,18 @@ tailwind.config = { theme: { extend: {
         </button>
 
         <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-52 max-w-[calc(100vw-2.5rem)] bg-[#1a1a1a] border border-white/20 rounded-2xl shadow-2xl backdrop-blur-lg z-50 py-2 max-h-80 overflow-y-auto origin-top-right opacity-0 scale-95 transition-[opacity,transform] duration-200 ease-out">
-          
-          <!-- English -->
+
+          <!-- English (default, pinned first) -->
           <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="en">
             <div class="flex items-center gap-3"><span class="fi fi-gb"></span> English</div>
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
-          <!-- Russian (المرتبة الثانية) -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="ru">
-            <div class="flex items-center gap-3"><span class="fi fi-ru"></span> Русский</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
-          <!-- Spanish -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="es">
-            <div class="flex items-center gap-3"><span class="fi fi-es"></span> Español</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
+          <!-- Below: remaining languages sorted alphabetically by native name -->
 
           <!-- Arabic -->
           <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="ar">
             <div class="flex items-center gap-3"><span class="fi fi-ae"></span> العربية</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
-          <!-- German -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="de">
-            <div class="flex items-center gap-3"><span class="fi fi-de"></span> Deutsch</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
-          <!-- Dutch -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="nl">
-            <div class="flex items-center gap-3"><span class="fi fi-nl"></span> Nederlands</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
-          <!-- Portuguese -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="pt">
-            <div class="flex items-center gap-3"><span class="fi fi-pt"></span> Português</div>
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
@@ -240,27 +216,21 @@ tailwind.config = { theme: { extend: {
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
-          <!-- Italian -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="it">
-            <div class="flex items-center gap-3"><span class="fi fi-it"></span> Italiano</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
-          <!-- Turkish -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="tr">
-            <div class="flex items-center gap-3"><span class="fi fi-tr"></span> Türkçe</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
-          <!-- Polish -->
-          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="pl">
-            <div class="flex items-center gap-3"><span class="fi fi-pl"></span> Polski</div>
-            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          </button>
-
           <!-- Czech -->
           <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="cs">
             <div class="flex items-center gap-3"><span class="fi fi-cz"></span> Čeština</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- German -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="de">
+            <div class="flex items-center gap-3"><span class="fi fi-de"></span> Deutsch</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- Spanish -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="es">
+            <div class="flex items-center gap-3"><span class="fi fi-es"></span> Español</div>
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
@@ -270,9 +240,45 @@ tailwind.config = { theme: { extend: {
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
+          <!-- Italian -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="it">
+            <div class="flex items-center gap-3"><span class="fi fi-it"></span> Italiano</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- Dutch -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="nl">
+            <div class="flex items-center gap-3"><span class="fi fi-nl"></span> Nederlands</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- Polish -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="pl">
+            <div class="flex items-center gap-3"><span class="fi fi-pl"></span> Polski</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- Portuguese -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="pt">
+            <div class="flex items-center gap-3"><span class="fi fi-pt"></span> Português</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
           <!-- Romanian -->
           <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="ro">
             <div class="flex items-center gap-3"><span class="fi fi-ro"></span> Română</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- Russian -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="ru">
+            <div class="flex items-center gap-3"><span class="fi fi-ru"></span> Русский</div>
+            <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+
+          <!-- Turkish -->
+          <button class="lang-option w-full text-left rtl:text-right px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center justify-between" data-lang="tr">
+            <div class="flex items-center gap-3"><span class="fi fi-tr"></span> Türkçe</div>
             <svg class="check-icon hidden w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </button>
 
@@ -286,7 +292,7 @@ tailwind.config = { theme: { extend: {
 <!-- Hero -->
 <section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 pt-36 sm:pt-44 pb-20">
   <div class="rise d1 inline-block bg-bele px-6 sm:px-10 py-3 sm:py-4 max-w-full break-words">
-    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight">BELEBOTS</h1>
+    <h1 class="ultra-bold text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight">BELEBOTS</h1>
   </div>
   <p data-i18n="heroDesc" class="rise d2 mt-10 max-w-3xl text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.35] break-words">
     Useful Telegram bots for work, creativity and everyday needs.
@@ -298,7 +304,7 @@ tailwind.config = { theme: { extend: {
         <span data-i18n="newsTitle">NEWS</span><br>
         <span data-i18n="newsSub" class="font-medium">and updates:</span>
       </p>
-      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill glow tg-pulse mt-5">
+      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill mt-5">
         <span class="ic">
           <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </span>
@@ -310,7 +316,7 @@ tailwind.config = { theme: { extend: {
         <span data-i18n="supportTitle">SUPPORT</span><br>
         <span data-i18n="supportSub" class="font-medium">and ask questions:</span>
       </p>
-      <a href="https://t.me/belebots_support" target="_blank" rel="noopener" class="tg pill glow tg-pulse mt-5">
+      <a href="https://t.me/belebots_support" target="_blank" rel="noopener" class="tg pill mt-5">
         <span class="ic">
           <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </span>
@@ -323,7 +329,7 @@ tailwind.config = { theme: { extend: {
 <!-- Collection -->
 <section id="bots" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
   <div class="reveal text-center">
-    <h2 class="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.15] tracking-tight break-words">
+    <h2 class="ultra-bold text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.15] tracking-tight break-words">
       <span data-i18n="collOur">OUR</span><br>
       <span data-i18n="collCollection">COLLECTION</span><br>
       <span data-i18n="collOf">OF</span> <span data-i18n="collBots" class="text-bele">BOTS</span> 
@@ -333,7 +339,7 @@ tailwind.config = { theme: { extend: {
 
   <article class="reveal pill glow mt-16 max-w-md mx-auto sm:mx-0 sm:ml-0 rounded-3xl border border-white/15 bg-white/[0.03] p-6 sm:p-8 flex flex-col items-start min-w-0">
     <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" class="w-24 h-24 rounded-2xl object-cover shrink-0">
-    <h3 class="mt-6 text-4xl sm:text-5xl font-black tracking-tight break-words">Save it</h3>
+    <h3 class="ultra-bold mt-6 text-4xl sm:text-5xl font-black tracking-tight break-words">Save it</h3>
     <p data-i18n="saveItDesc" class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed break-words">
       Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
     </p>
@@ -344,17 +350,17 @@ tailwind.config = { theme: { extend: {
 <!-- Social -->
 <section id="social" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
   <div class="reveal">
-    <h2 data-i18n="socialTitle" class="text-3xl sm:text-5xl font-black tracking-tight break-words">Follow BeleBots</h2>
+    <h2 data-i18n="socialTitle" class="ultra-bold text-3xl sm:text-5xl font-black tracking-tight break-words">Follow BeleBots</h2>
     <p data-i18n="socialSub" class="mt-3 text-white/70 text-lg break-words">Find us everywhere as <span class="text-white font-semibold">@belebots</span>.</p>
   </div>
   <ul class="reveal mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://tiktok.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">TikTok</span></a></li>
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">X</span></a></li>
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Instagram</span></a></li>
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Facebook</span></a></li>
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Threads</span></a></li>
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://youtube.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-youtube text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">YouTube</span></a></li>
-    <li><a class="pill glow social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://linkedin.com/company/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">LinkedIn</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://tiktok.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">TikTok</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://x.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">X</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Instagram</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Facebook</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Threads</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://youtube.com/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-youtube text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">YouTube</span></a></li>
+    <li><a class="pill glow social-card flex items-center gap-2 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-3.5 py-3.5 sm:px-5 sm:py-4" href="https://linkedin.com/company/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">LinkedIn</span></a></li>
   </ul>
 </section>
 </main>
@@ -367,19 +373,19 @@ tailwind.config = { theme: { extend: {
   // قاموس أسماء زر اللغة
   const buttonTranslations = {
     en: "Language",
-    ru: "Язык",
-    es: "Idioma",
-    ar: "خيار اللغة",
-    de: "Sprache",
-    nl: "Taal",
-    pt: "Idioma",
+    ar: "اللغة",
     ca: "Idioma",
-    it: "Lingua",
-    tr: "Dil",
-    pl: "Język",
     cs: "Jazyk",
+    de: "Sprache",
+    es: "Idioma",
     fr: "Langue",
-    ro: "Limbă"
+    it: "Lingua",
+    nl: "Taal",
+    pl: "Język",
+    pt: "Idioma",
+    ro: "Limbă",
+    ru: "Язык",
+    tr: "Dil"
   };
 
   const translations = {
@@ -390,96 +396,96 @@ tailwind.config = { theme: { extend: {
       saveItDesc: "Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.", saveItBtn: "Open in Telegram",
       socialTitle: "Follow BeleBots", socialSub: 'Find us everywhere as <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. All rights reserved."
     },
-    fr: {
-      navBots: "Nos Bots", navContact: "Contact", heroDesc: "Des bots Telegram utiles pour le travail, la créativité et les besoins quotidiens.",
-      newsTitle: "NOUVELLES", newsSub: "et mises à jour:", supportTitle: "SUPPORT", supportSub: "et questions:",
-      collOur: "NOTRE", collCollection: "COLLECTION", collOf: "DE", collBots: "BOTS",
-      saveItDesc: "Recherche approfondie dans les boutiques en ligne pour trouver des réductions cachées, comparer les prix et économiser.", saveItBtn: "Ouvrir dans Telegram",
-      socialTitle: "Suivez BeleBots", socialSub: 'Retrouvez-nous partout sous <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tous droits réservés."
-    },
-    es: {
-      navBots: "Nuestros Bots", navContact: "Contacto", heroDesc: "Bots de Telegram útiles para el trabajo, la creatividad y las necesidades diarias.",
-      newsTitle: "NOTICIAS", newsSub: "y actualizaciones:", supportTitle: "SOPORTE", supportSub: "y preguntas:",
-      collOur: "NUESTRA", collCollection: "COLECCIÓN", collOf: "DE", collBots: "BOTS",
-      saveItDesc: "Busca ofertas ocultas en tiendas online, compara precios y ahorra dinero en cada compra.", saveItBtn: "Abrir en Telegram",
-      socialTitle: "Sigue a BeleBots", socialSub: 'Encuéntranos en todas partes como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Todos los derechos reservados."
-    },
     ar: {
       navBots: "بوتاتنا", navContact: "تواصل معنا", heroDesc: "بوتات تيليجرام مفيدة للعمل والإبداع والاحتياجات اليومية.",
       newsTitle: "الأخبار", newsSub: "والتحديثات:", supportTitle: "الدعم الفني", supportSub: "وطرح الأسئلة:",
-      collOur: "مجموعتنا", collCollection: "من", collOf: "البوتات", collBots: "المتميزة",
+      collOur: "مجموعتنا", collCollection: "من", collOf: "", collBots: "البوتات",
       saveItDesc: "بحث عميق في المتاجر الإلكترونية لاكتشاف الخصومات المخفية ومقارنة الأسعار وتوفير المال في كل عملية شراء.", saveItBtn: "افتح في تيليجرام",
       socialTitle: "تابع BeleBots", socialSub: 'تجدنا في كل مكان تحت اسم <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. جميع الحقوق محفوظة."
     },
+    ca: {
+      navBots: "Els Nostres Bots", navContact: "Contacte", heroDesc: "Bots de Telegram útils per a la feina, la creativitat i les necessitats diàries.",
+      newsTitle: "NOTÍCIES", newsSub: "i actualitzacions:", supportTitle: "SUPORT", supportSub: "i fes preguntes:",
+      collOur: "LA NOSTRA", collCollection: "COL·LECCIÓ", collOf: "DE", collBots: "BOTS",
+      saveItDesc: "Cerca profunda a botigues en línia per descobrir descomptes amagats, comparar preus i estalviar diners en cada compra.", saveItBtn: "Obrir a Telegram",
+      socialTitle: "Segueix BeleBots", socialSub: 'Troba\'ns a tot arreu com a <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tots els drets reservats."
+    },
+    cs: {
+      navBots: "Naši Boti", navContact: "Kontakt", heroDesc: "Užiteční Telegram boti pro práci, kreativitu a každodenní potřeby.",
+      newsTitle: "NOVINKY", newsSub: "a aktualizace:", supportTitle: "PODPORA", supportSub: "a pokládejte dotazy:",
+      collOur: "NAŠE", collCollection: "KOLEKCE", collOf: "", collBots: "BOTŮ",
+      saveItDesc: "Hloubkové vyhledávání v online obchodech pro objevování skrytých slev, srovnávání cen a úsporu peněz při každém nákupu.", saveItBtn: "Otevřít v Telegramu",
+      socialTitle: "Sledujte BeleBots", socialSub: 'Najdete nás všude jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Všechna práva vyhrazena."
+    },
     de: {
       navBots: "Unsere Bots", navContact: "Kontakt", heroDesc: "Nützliche Telegram-Bots für Arbeit, Kreativität und alltägliche Bedürfnisse.",
-      newsTitle: "NEWS", newsSub: "und Updates:", supportTitle: "SUPPORT", supportSub: "und Fragen:",
+      newsTitle: "NEUIGKEITEN", newsSub: "und Aktualisierungen:", supportTitle: "SUPPORT", supportSub: "und stell deine Fragen:",
       collOur: "UNSERE", collCollection: "KOLLEKTION", collOf: "VON", collBots: "BOTS",
-      saveItDesc: "Tiefensuche in Online-Shops, um versteckte Rabatte zu entdecken, Preise zu vergleichen und Geld zu sparen.", saveItBtn: "In Telegram öffnen",
+      saveItDesc: "Tiefensuche in Online-Shops, um versteckte Rabatte zu entdecken, Preise zu vergleichen und bei jedem Einkauf Geld zu sparen.", saveItBtn: "In Telegram öffnen",
       socialTitle: "Folge BeleBots", socialSub: 'Finde uns überall als <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Alle Rechte vorbehalten."
+    },
+    es: {
+      navBots: "Nuestros Bots", navContact: "Contacto", heroDesc: "Bots de Telegram útiles para el trabajo, la creatividad y las necesidades diarias.",
+      newsTitle: "NOTICIAS", newsSub: "y actualizaciones:", supportTitle: "SOPORTE", supportSub: "y haz tus preguntas:",
+      collOur: "NUESTRA", collCollection: "COLECCIÓN", collOf: "DE", collBots: "BOTS",
+      saveItDesc: "Realiza búsquedas exhaustivas en tiendas online para descubrir descuentos ocultos, comparar precios y ahorrar dinero en cada compra.", saveItBtn: "Abrir en Telegram",
+      socialTitle: "Sigue a BeleBots", socialSub: 'Encuéntranos en todas partes como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Todos los derechos reservados."
+    },
+    fr: {
+      navBots: "Nos Bots", navContact: "Contact", heroDesc: "Des bots Telegram utiles pour le travail, la créativité et les besoins quotidiens.",
+      newsTitle: "ACTUALITÉS", newsSub: "et mises à jour :", supportTitle: "SUPPORT", supportSub: "et posez vos questions :",
+      collOur: "NOTRE", collCollection: "COLLECTION", collOf: "DE", collBots: "BOTS",
+      saveItDesc: "Recherche approfondie dans les boutiques en ligne pour découvrir des réductions cachées, comparer les prix et économiser sur chaque achat.", saveItBtn: "Ouvrir dans Telegram",
+      socialTitle: "Suivez BeleBots", socialSub: 'Retrouvez-nous partout sous le nom <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tous droits réservés."
+    },
+    it: {
+      navBots: "I Nostri Bot", navContact: "Contatti", heroDesc: "Utili bot Telegram per il lavoro, la creatività e le esigenze quotidiane.",
+      newsTitle: "NOTIZIE", newsSub: "e aggiornamenti:", supportTitle: "SUPPORTO", supportSub: "e fai le tue domande:",
+      collOur: "LA NOSTRA", collCollection: "COLLEZIONE", collOf: "DI", collBots: "BOT",
+      saveItDesc: "Ricerca approfondita nei negozi online per scoprire sconti nascosti, confrontare i prezzi e risparmiare su ogni acquisto.", saveItBtn: "Apri in Telegram",
+      socialTitle: "Segui BeleBots", socialSub: 'Trovaci ovunque come <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tutti i diritti riservati."
     },
     nl: {
       navBots: "Onze Bots", navContact: "Contact", heroDesc: "Handige Telegram-bots voor werk, creativiteit en dagelijkse behoeften.",
-      newsTitle: "NIEUWS", newsSub: "en updates:", supportTitle: "SUPPORT", supportSub: "en vragen:",
+      newsTitle: "NIEUWS", newsSub: "en updates:", supportTitle: "SUPPORT", supportSub: "en stel je vragen:",
       collOur: "ONZE", collCollection: "COLLECTIE", collOf: "VAN", collBots: "BOTS",
-      saveItDesc: "Doorzoek webshops grondig om verborgen kortingen te ontdekken, prijzen te vergelijken en geld te besparen.", saveItBtn: "Openen in Telegram",
+      saveItDesc: "Doorzoek webshops grondig om verborgen kortingen te ontdekken, prijzen te vergelijken en bij elke aankoop geld te besparen.", saveItBtn: "Openen in Telegram",
       socialTitle: "Volg BeleBots", socialSub: 'Vind ons overal als <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Alle rechten voorbehouden."
+    },
+    pl: {
+      navBots: "Nasze Boty", navContact: "Kontakt", heroDesc: "Przydatne boty na Telegramie do pracy, twórczości i codziennych potrzeb.",
+      newsTitle: "WIADOMOŚCI", newsSub: "i aktualizacje:", supportTitle: "WSPARCIE", supportSub: "i zadawaj pytania:",
+      collOur: "NASZA", collCollection: "KOLEKCJA", collOf: "", collBots: "BOTÓW",
+      saveItDesc: "Głębokie przeszukiwanie sklepów internetowych w celu odkrywania ukrytych zniżek, porównywania cen i oszczędzania pieniędzy przy każdym zakupie.", saveItBtn: "Otwórz w Telegramie",
+      socialTitle: "Obserwuj BeleBots", socialSub: 'Znajdź nas wszędzie jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Wszelkie prawa zastrzeżone."
     },
     pt: {
       navBots: "Nossos Bots", navContact: "Contato", heroDesc: "Bots do Telegram úteis para trabalho, criatividade e necessidades diárias.",
-      newsTitle: "NOTÍCIAS", newsSub: "e atualizações:", supportTitle: "SUPORTE", supportSub: "e perguntas:",
+      newsTitle: "NOTÍCIAS", newsSub: "e atualizações:", supportTitle: "SUPORTE", supportSub: "e faça suas perguntas:",
       collOur: "NOSSA", collCollection: "COLEÇÃO", collOf: "DE", collBots: "BOTS",
-      saveItDesc: "Busca profunda em lojas online para descobrir descontos ocultos, comparar preços e economizar dinheiro.", saveItBtn: "Abrir no Telegram",
+      saveItDesc: "Busca profunda em lojas online para descobrir descontos ocultos, comparar preços e economizar dinheiro em cada compra.", saveItBtn: "Abrir no Telegram",
       socialTitle: "Siga BeleBots", socialSub: 'Encontre-nos em todo lugar como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Todos os direitos reservados."
+    },
+    ro: {
+      navBots: "Boții Noștri", navContact: "Contact", heroDesc: "Boți utili de Telegram pentru muncă, creativitate și nevoi zilnice.",
+      newsTitle: "ȘTIRI", newsSub: "și actualizări:", supportTitle: "SUPORT", supportSub: "și pune întrebări:",
+      collOur: "COLECȚIA", collCollection: "NOASTRĂ", collOf: "DE", collBots: "BOȚI",
+      saveItDesc: "Căutare avansată în magazinele online pentru a descoperi reduceri ascunse, a compara prețurile și a economisi bani la fiecare achiziție.", saveItBtn: "Deschide în Telegram",
+      socialTitle: "Urmărește BeleBots", socialSub: 'Găsește-ne peste tot ca <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Toate drepturile rezervate."
     },
     ru: {
       navBots: "Наши боты", navContact: "Контакты", heroDesc: "Полезные Telegram-боты для работы, творчества и повседневных задач.",
-      newsTitle: "НОВОСТИ", newsSub: "и обновления:", supportTitle: "ПОДДЕРЖКА", supportSub: "и вопросы:",
+      newsTitle: "НОВОСТИ", newsSub: "и обновления:", supportTitle: "ПОДДЕРЖКА", supportSub: "и задавайте вопросы:",
       collOur: "НАША", collCollection: "КОЛЛЕКЦИЯ", collOf: "", collBots: "БОТОВ",
       saveItDesc: "Глубокий поиск по интернет-магазинам для поиска скрытых скидок, сравнения цен и экономии на каждой покупке.", saveItBtn: "Открыть в Telegram",
       socialTitle: "Подписывайтесь на BeleBots", socialSub: 'Ищите нас везде под ником <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Все права защищены."
     },
-    ca: {
-      navBots: "Els Nostres Bots", navContact: "Contacte", heroDesc: "Útils bots de Telegram per a la feina, la creativitat i les necessitats diàries.",
-      newsTitle: "NOTÍCIES", newsSub: "i actualitzacions:", supportTitle: "SUPORT", supportSub: "i preguntes:",
-      collOur: "LA NOSTRA", collCollection: "COL·LECCIÓ", collOf: "DE", collBots: "BOTS",
-      saveItDesc: "Cerca profunda a botigues en línia per descobrir descomptes amagats, comparar preus i estalviar diners.", saveItBtn: "Obrir a Telegram",
-      socialTitle: "Segueix BeleBots", socialSub: 'Troba\'ns a tot arreu com a <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tots els drets reservats."
-    },
-    it: {
-      navBots: "I Nostri Bot", navContact: "Contatti", heroDesc: "Utili bot Telegram per il lavoro, la creatività e le esigenze quotidiane.",
-      newsTitle: "NOTIZIE", newsSub: "e aggiornamenti:", supportTitle: "SUPORTO", supportSub: "e domande:",
-      collOur: "LA NOSTRA", collCollection: "COLLEZIONE", collOf: "DI", collBots: "BOT",
-      saveItDesc: "Ricerca approfondita nei negozi online per scoprire sconti nascosti, confrontare i prezzi e risparmiare.", saveItBtn: "Apri in Telegram",
-      socialTitle: "Segui BeleBots", socialSub: 'Trovaci ovunque come <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tutti i diritti riservati."
-    },
     tr: {
       navBots: "Botlarımız", navContact: "İletişim", heroDesc: "İş, yaratıcılık ve günlük ihtiyaçlar için yararlı Telegram botları.",
-      newsTitle: "HABERLER", newsSub: "ve güncellemeler:", supportTitle: "DESTEK", supportSub: "ve sorular:",
+      newsTitle: "HABERLER", newsSub: "ve güncellemeler:", supportTitle: "DESTEK", supportSub: "ve sorularınızı sorun:",
       collOur: "BOT", collCollection: "KOLEKSİYONUMUZ", collOf: "", collBots: "",
-      saveItDesc: "Gizli indirimleri keşfetmek, fiyatları karşılaştırmak ve tasarruf etmek için çevrimiçi mağazalarda derin arama.", saveItBtn: "Telegram'da Aç",
+      saveItDesc: "Gizli indirimleri keşfetmek, fiyatları karşılaştırmak ve her alışverişte tasarruf etmek için çevrimiçi mağazalarda derinlemesine arama yapar.", saveItBtn: "Telegram'da Aç",
       socialTitle: "BeleBots'u Takip Edin", socialSub: 'Bizi her yerde <span class="text-white font-semibold">@belebots</span> olarak bulun.', footer: "© 2026 BELEBOTS. Tüm hakları saklıdır."
-    },
-    pl: {
-      navBots: "Nasze Boty", navContact: "Kontakt", heroDesc: "Przydatne boty na Telegramie do pracy, twórczości i codziennych potrzeb.",
-      newsTitle: "WIADOMOŚCI", newsSub: "i aktualizacje:", supportTitle: "WSPARCIE", supportSub: "i pytania:",
-      collOur: "NASZA", collCollection: "KOLEKCJA", collOf: "", collBots: "BOTÓW",
-      saveItDesc: "Głębokie przeszukiwanie sklepów internetowych w celu odkrywania ukrytych zniżek, porównywania cen i oszczędzania pieniędzy.", saveItBtn: "Otwórz w Telegramie",
-      socialTitle: "Obserwuj BeleBots", socialSub: 'Znajdź nas wszędzie jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Wszelkie prawa zastrzeżone."
-    },
-    cs: {
-      navBots: "Naši Boti", navContact: "Kontakt", heroDesc: "Užiteční Telegram boti pro práci, kreativitu a každodenní potřeby.",
-      newsTitle: "NOVINKY", newsSub: "a aktualizace:", supportTitle: "PODPORA", supportSub: "a dotazy:",
-      collOur: "NAŠE", collCollection: "KOLEKCE", collOf: "", collBots: "BOTŮ",
-      saveItDesc: "Hloubkové vyhledávání v online obchodech pro objevování skrytých slev, srovnávání cen a úsporu peněz.", saveItBtn: "Otevřít v Telegramu",
-      socialTitle: "Sledujte BeleBots", socialSub: 'Najdete nás všude jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Všechna práva vyhrazena."
-    },
-    ro: {
-      navBots: "Boții Noștri", navContact: "Contact", heroDesc: "Boți utili de Telegram pentru muncă, creativitate și nevoi zilnice.",
-      newsTitle: "ȘTIRI", newsSub: "și actualizări:", supportTitle: "SUPORT", supportSub: "și întrebări:",
-      collOur: "COLECȚIA", collCollection: "NOASTRĂ", collOf: "DE", collBots: "BOȚI",
-      saveItDesc: "Căutare avansată în magazinele online pentru a descoperi reduceri ascunse, a compara prețurile și a economisi bani.", saveItBtn: "Deschide în Telegram",
-      socialTitle: "Urmărește BeleBots", socialSub: 'Găsește-ne peste tot ca <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Toate drepturile rezervate."
     }
   };
 
