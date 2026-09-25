@@ -37,19 +37,26 @@ tailwind.config = { theme: { extend: {
 </script>
 
 <style>
-  /* تطبيق خط Noto Sans Arabic على النصوص العربية فقط (600 عادي / 900 للعناوين) - مع استثناء الأيقونات */
-  [dir="rtl"] :not(i):not([class*="fa-"]),
-  [lang="ar"] :not(i):not([class*="fa-"]) {
+  /* Global: all text bold (900) except brand-normal exceptions (BELEBOTS / Save it) */
+  html, body, h1, h2, h3, h4, h5, h6, p, a, button, span, div, li, label, nav,
+  input, textarea, select {
+      font-weight: 900 !important;
+  }
+  .brand-normal, h1.brand-normal, h2 .brand-normal, h3.brand-normal, span.brand-normal, div.brand-normal {
+      font-weight: 400 !important;
+  }
+
+  /* Arabic text: Noto Sans Arabic font (weight stays 900 via the global rule above) */
+  [dir="rtl"] :not(i):not([class*="fa-"]):not([lang="en"]):not([lang="en"] *),
+  [lang="ar"] :not(i):not([class*="fa-"]):not([lang="en"]):not([lang="en"] *) {
       font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      font-weight: 600 !important;
   }
   [dir="rtl"] { unicode-bidi: isolate; }
 
-  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
-  [dir="rtl"] .ultra-bold, [dir="rtl"] strong, [dir="rtl"] b,
-  [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
-  [lang="ar"] .ultra-bold, [lang="ar"] strong, [lang="ar"] b {
-      font-weight: 900 !important;
+  /* Brand names / English terms inside Arabic mode: natural Latin font, natural weight (not forced) */
+  [dir="rtl"] [lang="en"], [lang="ar"] [lang="en"] {
+      font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
+      unicode-bidi: isolate; direction: ltr; display: inline-block;
   }
 
   /* إصلاح تعطّل أيقونات التواصل الاجتماعي في الوضع العربي: إبقاء خط Font Awesome كما هو */
@@ -303,7 +310,7 @@ tailwind.config = { theme: { extend: {
 <!-- Hero -->
 <section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 pt-36 sm:pt-44 pb-20">
   <div class="rise d1 inline-block bg-bele px-6 sm:px-10 py-3 sm:py-4 max-w-full break-words">
-    <h1 class="ultra-bold text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight">BELEBOTS</h1>
+    <h1 class="ultra-bold text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight"><span class="brand-normal">BELEBOTS</span></h1>
   </div>
   <p data-i18n="heroDesc" class="rise d2 mt-10 max-w-3xl text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.35] break-words">
     Useful Telegram bots for work, creativity and everyday needs.
@@ -350,7 +357,7 @@ tailwind.config = { theme: { extend: {
 
   <article class="reveal pill glow mt-16 max-w-md mx-auto sm:mx-0 sm:ml-0 rounded-3xl border border-white/15 bg-white/[0.03] p-6 sm:p-8 flex flex-col items-start min-w-0">
     <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" class="w-24 h-24 rounded-2xl object-cover shrink-0">
-    <h3 class="ultra-bold mt-6 text-4xl sm:text-5xl font-black tracking-tight break-words">Save it</h3>
+    <h3 lang="en" class="ultra-bold mt-6 text-4xl sm:text-5xl font-black tracking-tight break-words brand-normal">Save it</h3>
     <p data-i18n="saveItDesc" class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed break-words">
       Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
     </p>
@@ -361,7 +368,7 @@ tailwind.config = { theme: { extend: {
 <!-- Social -->
 <section id="social" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
   <div class="reveal">
-    <h2 data-i18n="socialTitle" class="ultra-bold text-3xl sm:text-5xl font-black tracking-tight break-words">Follow BeleBots</h2>
+    <h2 data-i18n="socialTitle" class="ultra-bold text-3xl sm:text-5xl font-black tracking-tight break-words">Follow <span class="brand-normal">BeleBots</span></h2>
     <p data-i18n="socialSub" class="mt-3 text-white/70 text-lg break-words">Find us everywhere as <span class="text-white font-semibold">@belebots</span>.</p>
   </div>
   <ul class="reveal mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -377,7 +384,7 @@ tailwind.config = { theme: { extend: {
 </main>
 
 <footer data-i18n="footer" class="max-w-6xl mx-auto px-5 sm:px-8 py-12 border-t border-white/10 text-white/50 text-sm">
-  © 2026 BELEBOTS. All rights reserved.
+  © 2026 <span class="brand-normal">BELEBOTS</span>. All rights reserved.
 </footer>
 
 <script>
@@ -405,98 +412,98 @@ tailwind.config = { theme: { extend: {
       newsTitle: "NEWS", newsSub: "and updates:", supportTitle: "SUPPORT", supportSub: "and ask questions:",
       collOur: "OUR", collCollection: "COLLECTION", collOf: "OF", collBots: "BOTS",
       saveItDesc: "Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.", saveItBtn: "Open in Telegram",
-      socialTitle: "Follow BeleBots", socialSub: 'Find us everywhere as <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. All rights reserved."
+      socialTitle: "Follow <span class='brand-normal'>BeleBots</span>", socialSub: 'Find us everywhere as <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. All rights reserved."
     },
     ar: {
       navBots: "بوتاتنا", navContact: "تواصل معنا", heroDesc: "بوتات تيليجرام مفيدة للعمل والإبداع والاحتياجات اليومية.",
       newsTitle: "الأخبار", newsSub: "والتحديثات:", supportTitle: "الدعم الفني", supportSub: "وطرح الأسئلة:",
       collOur: "مجموعتنا", collCollection: "من", collOf: "", collBots: "البوتات",
       saveItDesc: "بحث عميق في المتاجر الإلكترونية لاكتشاف الخصومات المخفية ومقارنة الأسعار وتوفير المال في كل عملية شراء.", saveItBtn: "افتح في تيليجرام",
-      socialTitle: "تابع BeleBots", socialSub: 'تجدنا في كل مكان تحت اسم <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. جميع الحقوق محفوظة."
+      socialTitle: "تابع <span lang=\"en\" class='brand-normal'>BeleBots</span>", socialSub: 'تجدنا في كل مكان تحت اسم <span lang="en" class="text-white font-semibold">@belebots</span>.', footer: '© 2026 <span lang="en" class="brand-normal">BELEBOTS</span>. جميع الحقوق محفوظة.'
     },
     ca: {
       navBots: "Els Nostres Bots", navContact: "Contacte", heroDesc: "Bots de Telegram útils per a la feina, la creativitat i les necessitats diàries.",
       newsTitle: "NOTÍCIES", newsSub: "i actualitzacions:", supportTitle: "SUPORT", supportSub: "i fes preguntes:",
       collOur: "LA NOSTRA", collCollection: "COL·LECCIÓ", collOf: "DE", collBots: "BOTS",
       saveItDesc: "Cerca profunda a botigues en línia per descobrir descomptes amagats, comparar preus i estalviar diners en cada compra.", saveItBtn: "Obrir a Telegram",
-      socialTitle: "Segueix BeleBots", socialSub: 'Troba\'ns a tot arreu com a <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tots els drets reservats."
+      socialTitle: "Segueix <span class='brand-normal'>BeleBots</span>", socialSub: 'Troba\'ns a tot arreu com a <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Tots els drets reservats."
     },
     cs: {
       navBots: "Naši Boti", navContact: "Kontakt", heroDesc: "Užiteční Telegram boti pro práci, kreativitu a každodenní potřeby.",
       newsTitle: "NOVINKY", newsSub: "a aktualizace:", supportTitle: "PODPORA", supportSub: "a pokládejte dotazy:",
       collOur: "NAŠE", collCollection: "KOLEKCE", collOf: "", collBots: "BOTŮ",
       saveItDesc: "Hloubkové vyhledávání v online obchodech pro objevování skrytých slev, srovnávání cen a úsporu peněz při každém nákupu.", saveItBtn: "Otevřít v Telegramu",
-      socialTitle: "Sledujte BeleBots", socialSub: 'Najdete nás všude jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Všechna práva vyhrazena."
+      socialTitle: "Sledujte <span class='brand-normal'>BeleBots</span>", socialSub: 'Najdete nás všude jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Všechna práva vyhrazena."
     },
     de: {
       navBots: "Unsere Bots", navContact: "Kontakt", heroDesc: "Nützliche Telegram-Bots für Arbeit, Kreativität und alltägliche Bedürfnisse.",
       newsTitle: "NEUIGKEITEN", newsSub: "und Aktualisierungen:", supportTitle: "SUPPORT", supportSub: "und stell deine Fragen:",
       collOur: "UNSERE", collCollection: "KOLLEKTION", collOf: "VON", collBots: "BOTS",
       saveItDesc: "Tiefensuche in Online-Shops, um versteckte Rabatte zu entdecken, Preise zu vergleichen und bei jedem Einkauf Geld zu sparen.", saveItBtn: "In Telegram öffnen",
-      socialTitle: "Folge BeleBots", socialSub: 'Finde uns überall als <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Alle Rechte vorbehalten."
+      socialTitle: "Folge <span class='brand-normal'>BeleBots</span>", socialSub: 'Finde uns überall als <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Alle Rechte vorbehalten."
     },
     es: {
       navBots: "Nuestros Bots", navContact: "Contacto", heroDesc: "Bots de Telegram útiles para el trabajo, la creatividad y las necesidades diarias.",
       newsTitle: "NOTICIAS", newsSub: "y actualizaciones:", supportTitle: "SOPORTE", supportSub: "y haz tus preguntas:",
       collOur: "NUESTRA", collCollection: "COLECCIÓN", collOf: "DE", collBots: "BOTS",
       saveItDesc: "Realiza búsquedas exhaustivas en tiendas online para descubrir descuentos ocultos, comparar precios y ahorrar dinero en cada compra.", saveItBtn: "Abrir en Telegram",
-      socialTitle: "Sigue a BeleBots", socialSub: 'Encuéntranos en todas partes como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Todos los derechos reservados."
+      socialTitle: "Sigue a <span class='brand-normal'>BeleBots</span>", socialSub: 'Encuéntranos en todas partes como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Todos los derechos reservados."
     },
     fr: {
       navBots: "Nos Bots", navContact: "Contact", heroDesc: "Des bots Telegram utiles pour le travail, la créativité et les besoins quotidiens.",
       newsTitle: "ACTUALITÉS", newsSub: "et mises à jour :", supportTitle: "SUPPORT", supportSub: "et posez vos questions :",
       collOur: "NOTRE", collCollection: "COLLECTION", collOf: "DE", collBots: "BOTS",
       saveItDesc: "Recherche approfondie dans les boutiques en ligne pour découvrir des réductions cachées, comparer les prix et économiser sur chaque achat.", saveItBtn: "Ouvrir dans Telegram",
-      socialTitle: "Suivez BeleBots", socialSub: 'Retrouvez-nous partout sous le nom <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tous droits réservés."
+      socialTitle: "Suivez <span class='brand-normal'>BeleBots</span>", socialSub: 'Retrouvez-nous partout sous le nom <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Tous droits réservés."
     },
     it: {
       navBots: "I Nostri Bot", navContact: "Contatti", heroDesc: "Utili bot Telegram per il lavoro, la creatività e le esigenze quotidiane.",
       newsTitle: "NOTIZIE", newsSub: "e aggiornamenti:", supportTitle: "SUPPORTO", supportSub: "e fai le tue domande:",
       collOur: "LA NOSTRA", collCollection: "COLLEZIONE", collOf: "DI", collBots: "BOT",
       saveItDesc: "Ricerca approfondita nei negozi online per scoprire sconti nascosti, confrontare i prezzi e risparmiare su ogni acquisto.", saveItBtn: "Apri in Telegram",
-      socialTitle: "Segui BeleBots", socialSub: 'Trovaci ovunque come <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Tutti i diritti riservati."
+      socialTitle: "Segui <span class='brand-normal'>BeleBots</span>", socialSub: 'Trovaci ovunque come <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Tutti i diritti riservati."
     },
     nl: {
       navBots: "Onze Bots", navContact: "Contact", heroDesc: "Handige Telegram-bots voor werk, creativiteit en dagelijkse behoeften.",
       newsTitle: "NIEUWS", newsSub: "en updates:", supportTitle: "SUPPORT", supportSub: "en stel je vragen:",
       collOur: "ONZE", collCollection: "COLLECTIE", collOf: "VAN", collBots: "BOTS",
       saveItDesc: "Doorzoek webshops grondig om verborgen kortingen te ontdekken, prijzen te vergelijken en bij elke aankoop geld te besparen.", saveItBtn: "Openen in Telegram",
-      socialTitle: "Volg BeleBots", socialSub: 'Vind ons overal als <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Alle rechten voorbehouden."
+      socialTitle: "Volg <span class='brand-normal'>BeleBots</span>", socialSub: 'Vind ons overal als <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Alle rechten voorbehouden."
     },
     pl: {
       navBots: "Nasze Boty", navContact: "Kontakt", heroDesc: "Przydatne boty na Telegramie do pracy, twórczości i codziennych potrzeb.",
       newsTitle: "WIADOMOŚCI", newsSub: "i aktualizacje:", supportTitle: "WSPARCIE", supportSub: "i zadawaj pytania:",
       collOur: "NASZA", collCollection: "KOLEKCJA", collOf: "", collBots: "BOTÓW",
       saveItDesc: "Głębokie przeszukiwanie sklepów internetowych w celu odkrywania ukrytych zniżek, porównywania cen i oszczędzania pieniędzy przy każdym zakupie.", saveItBtn: "Otwórz w Telegramie",
-      socialTitle: "Obserwuj BeleBots", socialSub: 'Znajdź nas wszędzie jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Wszelkie prawa zastrzeżone."
+      socialTitle: "Obserwuj <span class='brand-normal'>BeleBots</span>", socialSub: 'Znajdź nas wszędzie jako <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Wszelkie prawa zastrzeżone."
     },
     pt: {
       navBots: "Nossos Bots", navContact: "Contato", heroDesc: "Bots do Telegram úteis para trabalho, criatividade e necessidades diárias.",
       newsTitle: "NOTÍCIAS", newsSub: "e atualizações:", supportTitle: "SUPORTE", supportSub: "e faça suas perguntas:",
       collOur: "NOSSA", collCollection: "COLEÇÃO", collOf: "DE", collBots: "BOTS",
       saveItDesc: "Busca profunda em lojas online para descobrir descontos ocultos, comparar preços e economizar dinheiro em cada compra.", saveItBtn: "Abrir no Telegram",
-      socialTitle: "Siga BeleBots", socialSub: 'Encontre-nos em todo lugar como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Todos os direitos reservados."
+      socialTitle: "Siga <span class='brand-normal'>BeleBots</span>", socialSub: 'Encontre-nos em todo lugar como <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Todos os direitos reservados."
     },
     ro: {
       navBots: "Boții Noștri", navContact: "Contact", heroDesc: "Boți utili de Telegram pentru muncă, creativitate și nevoi zilnice.",
       newsTitle: "ȘTIRI", newsSub: "și actualizări:", supportTitle: "SUPORT", supportSub: "și pune întrebări:",
       collOur: "COLECȚIA", collCollection: "NOASTRĂ", collOf: "DE", collBots: "BOȚI",
       saveItDesc: "Căutare avansată în magazinele online pentru a descoperi reduceri ascunse, a compara prețurile și a economisi bani la fiecare achiziție.", saveItBtn: "Deschide în Telegram",
-      socialTitle: "Urmărește BeleBots", socialSub: 'Găsește-ne peste tot ca <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Toate drepturile rezervate."
+      socialTitle: "Urmărește <span class='brand-normal'>BeleBots</span>", socialSub: 'Găsește-ne peste tot ca <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Toate drepturile rezervate."
     },
     ru: {
       navBots: "Наши боты", navContact: "Контакты", heroDesc: "Полезные Telegram-боты для работы, творчества и повседневных задач.",
       newsTitle: "НОВОСТИ", newsSub: "и обновления:", supportTitle: "ПОДДЕРЖКА", supportSub: "и задавайте вопросы:",
       collOur: "НАША", collCollection: "КОЛЛЕКЦИЯ", collOf: "", collBots: "БОТОВ",
       saveItDesc: "Глубокий поиск по интернет-магазинам для поиска скрытых скидок, сравнения цен и экономии на каждой покупке.", saveItBtn: "Открыть в Telegram",
-      socialTitle: "Подписывайтесь на BeleBots", socialSub: 'Ищите нас везде под ником <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 BELEBOTS. Все права защищены."
+      socialTitle: "Подписывайтесь на <span class='brand-normal'>BeleBots</span>", socialSub: 'Ищите нас везде под ником <span class="text-white font-semibold">@belebots</span>.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Все права защищены."
     },
     tr: {
       navBots: "Botlarımız", navContact: "İletişim", heroDesc: "İş, yaratıcılık ve günlük ihtiyaçlar için yararlı Telegram botları.",
       newsTitle: "HABERLER", newsSub: "ve güncellemeler:", supportTitle: "DESTEK", supportSub: "ve sorularınızı sorun:",
       collOur: "BOT", collCollection: "KOLEKSİYONUMUZ", collOf: "", collBots: "",
       saveItDesc: "Gizli indirimleri keşfetmek, fiyatları karşılaştırmak ve her alışverişte tasarruf etmek için çevrimiçi mağazalarda derinlemesine arama yapar.", saveItBtn: "Telegram'da Aç",
-      socialTitle: "BeleBots'u Takip Edin", socialSub: 'Bizi her yerde <span class="text-white font-semibold">@belebots</span> olarak bulun.', footer: "© 2026 BELEBOTS. Tüm hakları saklıdır."
+      socialTitle: "<span class='brand-normal'>BeleBots</span>'u Takip Edin", socialSub: 'Bizi her yerde <span class="text-white font-semibold">@belebots</span> olarak bulun.', footer: "© 2026 <span class='brand-normal'>BELEBOTS</span>. Tüm hakları saklıdır."
     }
   };
 
