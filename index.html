@@ -59,10 +59,19 @@ tailwind.config = { theme: { extend: {
   }
 
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background:#050505; }
-  html { scroll-padding-top: 100px; }
-  body { background:#050505; color:#fff; font-family:'Montserrat',Helvetica,Arial,sans-serif; }
-  
+  html { scroll-padding-top: 100px; overflow-x: hidden; max-width: 100%; }
+  body { background:#050505; color:#fff; font-family:'Montserrat',Helvetica,Arial,sans-serif; overflow-x: hidden; max-width: 100%; }
+  *, *::before, *::after { box-sizing: border-box; }
   * { transition-timing-function: cubic-bezier(.22,.85,.32,1); }
+
+  #home { max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+  #home * { max-width: 100%; box-sizing: border-box; }
+
+  header .max-w-6xl { display: flex; align-items: center; justify-content: space-between; }
+  header nav { align-items: center; }
+  header a[aria-label="BeleBots home"] { flex-shrink: 0; }
+  header a[aria-label="BeleBots home"] img { flex-shrink: 0; }
+  #lang-btn { flex-shrink: 0; width: 3.5rem; min-width: 3.5rem; max-width: 3.5rem; }
 
   @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
   .rise { opacity:0; animation: rise .9s cubic-bezier(.16,.84,.24,1) forwards; }
@@ -200,9 +209,9 @@ tailwind.config = { theme: { extend: {
 
 <!-- Header -->
 <header class="fixed top-0 inset-x-0 z-50 bg-ink/85 backdrop-blur" style="padding-top:env(safe-area-inset-top,0px)">
-  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4 gap-4">
-    <a href="#home" aria-label="BeleBots home" class="inline-flex items-center shrink-0">
-      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-12 w-auto shrink-0" style="transform:translateY(7%)">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4 gap-4" style="display:flex;align-items:center;justify-content:space-between;">
+    <a href="#home" aria-label="BeleBots home" class="inline-flex items-center shrink-0" style="flex-shrink:0;">
+      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-12 w-auto shrink-0 block">
     </a>
     <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
       <a href="#bots" data-i18n="navBots" class="hover:text-bele transition-colors shrink-0">Our Bots</a>
@@ -210,7 +219,7 @@ tailwind.config = { theme: { extend: {
 
       <!-- زر اللغة: أيقونة الكرة الأرضية فقط، بحجم ثابت لا يخرج أبداً عن حدود الشاشة على الجوال -->
       <div class="lang-wrap relative inline-block text-left shrink-0">
-        <button id="lang-btn" class="bg-white text-black font-bold rounded-full border-2 border-white pill flex items-center justify-center glow cursor-pointer shrink-0" aria-expanded="false" aria-haspopup="true" aria-label="Language">
+        <button id="lang-btn" class="bg-white text-black font-bold rounded-full border-2 border-white pill flex items-center justify-center glow cursor-pointer shrink-0" style="flex-shrink:0;" aria-expanded="false" aria-haspopup="true" aria-label="Language">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="9"></circle>
             <path d="M3 12h18"></path>
