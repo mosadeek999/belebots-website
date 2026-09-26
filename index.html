@@ -29,6 +29,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
 
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 tailwind.config = { theme: { extend: {
   fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'] },
@@ -65,11 +67,12 @@ tailwind.config = { theme: { extend: {
   @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
   .rise { opacity:0; animation: rise .9s cubic-bezier(.16,.84,.24,1) forwards; }
   .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
-  .reveal { opacity:0; transform:translateY(28px) scale(.95); transition:opacity .8s cubic-bezier(.16,.84,.24,1), transform .8s cubic-bezier(.16,.84,.24,1); transition-delay: calc(var(--i,0) * .09s); }
-  .reveal.in { opacity:1; transform:none; }
+  /* GSAP ScrollTrigger now owns the reveal animation; this only hides the element pre-JS */
+  .reveal { opacity:0; visibility:hidden; }
 
-  /* Ambient gradient orbs */
-  .orb{position:fixed;border-radius:9999px;filter:blur(90px);pointer-events:none;z-index:0;opacity:.5;will-change:transform;}
+  /* Ambient canvas mesh gradient (mouse-reactive) + fallback orbs */
+  #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .orb{position:fixed;border-radius:9999px;filter:blur(90px);pointer-events:none;z-index:0;opacity:.28;will-change:transform;}
   .orb1{width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,#E50914,transparent 70%);animation:orbFloat1 18s ease-in-out infinite;}
   .orb2{width:440px;height:440px;bottom:-120px;right:-100px;background:radial-gradient(circle,#5b1cff,transparent 70%);animation:orbFloat2 22s ease-in-out infinite;}
   .orb3{width:360px;height:360px;top:35%;left:55%;background:radial-gradient(circle,#0ea5e9,transparent 70%);animation:orbFloat3 26s ease-in-out infinite;}
@@ -81,13 +84,17 @@ tailwind.config = { theme: { extend: {
   /* Interactive cursor glow */
   #cursor-glow{position:fixed;top:0;left:0;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:9999px;pointer-events:none;z-index:2;background:radial-gradient(circle,rgba(229,9,20,.18),transparent 70%);transform:translate3d(-9999px,-9999px,0);will-change:transform;}
 
-  /* 3D tilt */
-  .tilt{transform-style:preserve-3d;will-change:transform;}
+  /* True 3D tilt with dynamic glare */
+  .tilt{position:relative;transform-style:preserve-3d;will-change:transform;}
+  .tilt-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.35),transparent 60%);transition:opacity .3s ease;mix-blend-mode:overlay;z-index:2;}
+  .tilt:hover .tilt-glare{opacity:1;}
 
-  /* Shimmer sweep on primary CTA */
-  .shimmer{position:relative;overflow:hidden;}
-  .shimmer::after{content:'';position:absolute;top:0;left:-150%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(0,0,0,.28),transparent);transform:skewX(-20deg);animation:shimmerMove 3.4s ease-in-out infinite;pointer-events:none;}
+  /* Liquid shimmer sweep on primary CTA */
+  .shimmer{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.85,.32,1),box-shadow .35s ease;}
+  .shimmer::after{content:'';position:absolute;top:-50%;left:-150%;width:60%;height:200%;background:linear-gradient(100deg,transparent,rgba(229,9,20,.15) 35%,rgba(255,255,255,.55) 50%,rgba(94,28,255,.15) 65%,transparent);transform:skewX(-20deg);animation:shimmerMove 3.2s ease-in-out infinite;pointer-events:none;filter:blur(1px);}
   @keyframes shimmerMove{0%{left:-150%}55%,100%{left:150%}}
+  .shimmer:hover{transform:scale(1.06) translateY(-3px);box-shadow:0 14px 40px rgba(229,9,20,.35),0 0 0 1px rgba(255,255,255,.1) inset;}
+  .shimmer:active{transform:scale(.97) translateY(0);}
   @media (prefers-reduced-motion: reduce){ .orb,.shimmer::after{animation:none} }
   .pill { transition: transform .35s cubic-bezier(.22,.85,.32,1), box-shadow .35s ease, background-color .35s ease, border-color .35s ease; will-change: transform; }
   .pill:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,.22); }
@@ -189,6 +196,7 @@ tailwind.config = { theme: { extend: {
 </style>
 </head>
 <body class="antialiased">
+<canvas id="bg-canvas"></canvas>
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
@@ -595,15 +603,37 @@ tailwind.config = { theme: { extend: {
   const initialLang = localStorage.getItem('belebots_lang') || 'en';
   setLanguage(initialLang);
 
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: .15 });
-  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- GSAP ScrollTrigger reveals: float up + 3D rotation, staggered, elastic ----
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    if (reducedMotion) {
+      gsap.set('.reveal', { opacity:1, visibility:'visible' });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function(el){
+        var isCardGroup = el.matches('ul') === false && (el.classList.contains('tilt') || el.closest('li'));
+        var delay = parseFloat(el.style.getPropertyValue('--i')) || 0;
+        gsap.fromTo(el,
+          { opacity:0, visibility:'visible', y:70, rotateX: isCardGroup ? -50 : -12, scale:.92, transformPerspective:900, transformOrigin:'50% 100%' },
+          {
+            opacity:1, y:0, rotateX:0, scale:1,
+            duration:1.3,
+            delay: delay * 0.12,
+            ease: 'elastic.out(1,0.6)',
+            scrollTrigger:{ trigger: el, start:'top 88%', toggleActions:'play none none none' }
+          }
+        );
+      });
+    }
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.style.opacity = 1; el.style.visibility = 'visible'; });
+  }
 
   // Interactive cursor glow (GPU-accelerated, rAF-throttled)
   var glow = document.getElementById('cursor-glow');
   var gx = 0, gy = 0, gRaf = null;
-  if (glow && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (glow && !reducedMotion) {
     window.addEventListener('pointermove', function(e){
       gx = e.clientX; gy = e.clientY;
       if (!gRaf) gRaf = requestAnimationFrame(function(){
@@ -613,26 +643,85 @@ tailwind.config = { theme: { extend: {
     }, { passive:true });
   }
 
-  // 3D tilt hover for bot & social cards
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // ---- True 3D cursor tilt + dynamic glare for bot & social cards ----
+  if (!reducedMotion) {
     document.querySelectorAll('.tilt').forEach(function(card){
+      var glare = document.createElement('div');
+      glare.className = 'tilt-glare';
+      card.appendChild(glare);
       var rafId = null, rect;
-      card.style.transition = 'transform .25s cubic-bezier(.22,.85,.32,1)';
+      card.style.transition = 'transform .25s cubic-bezier(.22,.85,.32,1), box-shadow .25s ease';
       card.addEventListener('mouseenter', function(){ rect = card.getBoundingClientRect(); });
       card.addEventListener('mousemove', function(e){
         if (rafId) return;
         rafId = requestAnimationFrame(function(){
           var px = (e.clientX - rect.left) / rect.width, py = (e.clientY - rect.top) / rect.height;
-          var rx = (py - .5) * -10, ry = (px - .5) * 10;
-          card.style.transform = 'perspective(800px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.03,1.03,1.03)';
+          var rx = (py - .5) * -14, ry = (px - .5) * 14;
+          card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateZ(18px) scale3d(1.04,1.04,1.04)';
+          card.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,.6)';
+          glare.style.background = 'radial-gradient(circle at ' + (px*100) + '% ' + (py*100) + '%, rgba(255,255,255,.4), transparent 60%)';
           rafId = null;
         });
       });
       card.addEventListener('mouseleave', function(){
-        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+        card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0) scale3d(1,1,1)';
+        card.style.boxShadow = '';
       });
     });
   }
+
+  // ---- Ambient mesh-gradient canvas, reacts to cursor ----
+  (function(){
+    var canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W, H, mx, my, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function resize(){
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    resize();
+    mx = W/2; my = H/2;
+    var tx = mx, ty = my;
+    window.addEventListener('resize', resize);
+    window.addEventListener('pointermove', function(e){ tx = e.clientX; ty = e.clientY; }, { passive:true });
+
+    var blobs = [
+      { baseX:.22, baseY:.28, r:.30, c:'rgba(229,9,20,.16)', s:1.0 },
+      { baseX:.8,  baseY:.75, r:.26, c:'rgba(91,28,255,.14)', s:-.8 },
+      { baseX:.65, baseY:.25, r:.20, c:'rgba(14,165,233,.13)', s:.6 }
+    ];
+    var t = 0, raf;
+    function draw(){
+      t += 0.004;
+      mx += (tx - mx) * 0.03; my += (ty - my) * 0.03;
+      ctx.clearRect(0,0,W,H);
+      blobs.forEach(function(b, i){
+        var driftX = Math.sin(t * b.s + i) * 60 + (mx - W/2) * 0.06;
+        var driftY = Math.cos(t * b.s + i) * 60 + (my - H/2) * 0.06;
+        var x = b.baseX * W + driftX, y = b.baseY * H + driftY, r = b.r * Math.max(W,H);
+        var g = ctx.createRadialGradient(x,y,0,x,y,r);
+        g.addColorStop(0, b.c);
+        g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,W,H);
+      });
+      raf = requestAnimationFrame(draw);
+    }
+    if (reducedMotion) {
+      // Static single paint, no animation loop
+      blobs.forEach(function(b){
+        var x = b.baseX * W, y = b.baseY * H, r = b.r * Math.max(W,H);
+        var g = ctx.createRadialGradient(x,y,0,x,y,r);
+        g.addColorStop(0, b.c); g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+      });
+    } else {
+      draw();
+    }
+  })();
 </script>
 </body>
 </html>
