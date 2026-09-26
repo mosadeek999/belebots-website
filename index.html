@@ -70,8 +70,7 @@ tailwind.config = { theme: { extend: {
   /* GSAP ScrollTrigger now owns the reveal animation; this only hides the element pre-JS */
   .reveal { opacity:0; visibility:hidden; }
 
-  /* Ambient canvas mesh gradient (mouse-reactive) + fallback orbs */
-  #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  /* Lightweight ambient orbs — CSS transform-only, GPU-accelerated */
   .orb{position:fixed;border-radius:9999px;filter:blur(90px);pointer-events:none;z-index:0;opacity:.28;will-change:transform;}
   .orb1{width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,#E50914,transparent 70%);animation:orbFloat1 18s ease-in-out infinite;}
   .orb2{width:440px;height:440px;bottom:-120px;right:-100px;background:radial-gradient(circle,#5b1cff,transparent 70%);animation:orbFloat2 22s ease-in-out infinite;}
@@ -84,10 +83,15 @@ tailwind.config = { theme: { extend: {
   /* Interactive cursor glow */
   #cursor-glow{position:fixed;top:0;left:0;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:9999px;pointer-events:none;z-index:2;background:radial-gradient(circle,rgba(229,9,20,.18),transparent 70%);transform:translate3d(-9999px,-9999px,0);will-change:transform;}
 
-  /* True 3D tilt with dynamic glare */
+  /* True 3D tilt with dynamic glare (CSS var-driven, no per-frame box-shadow writes) */
   .tilt{position:relative;transform-style:preserve-3d;will-change:transform;}
-  .tilt-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.35),transparent 60%);transition:opacity .3s ease;mix-blend-mode:overlay;z-index:2;}
+  .tilt-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.35),transparent 60%);transition:opacity .3s ease;mix-blend-mode:overlay;z-index:2;}
   .tilt:hover .tilt-glare{opacity:1;}
+
+  /* Layout-shift protection: nav links truncate instead of reflowing on language change */
+  nav{flex-wrap:nowrap;min-width:0;}
+  nav > a[data-i18n]{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:32vw;display:inline-block;}
+  #lang-btn{min-width:2.75rem;box-sizing:border-box;}
 
   /* Liquid shimmer sweep on primary CTA */
   .shimmer{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.85,.32,1),box-shadow .35s ease;}
@@ -117,13 +121,6 @@ tailwind.config = { theme: { extend: {
   }
   .cta-pulse { animation: cta-glow 2.6s ease-in-out infinite; }
   .cta-pulse:hover { animation-play-state: paused; }
-
-  @keyframes tg-glow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(229,9,20,0), 0 4px 16px rgba(0,0,0,.25); }
-    50% { box-shadow: 0 0 22px 3px rgba(229,9,20,.45), 0 4px 16px rgba(0,0,0,.25); }
-  }
-  .tg-pulse { animation: tg-glow 2.6s ease-in-out infinite; }
-  .tg-pulse:hover { animation-play-state: paused; }
 
   .social-card { transition: transform .3s cubic-bezier(.22,.85,.32,1), box-shadow .3s ease, background-color .3s ease, border-color .3s ease; }
   .social-card:hover { background-color: rgba(255,255,255,.06); }
@@ -196,7 +193,6 @@ tailwind.config = { theme: { extend: {
 </style>
 </head>
 <body class="antialiased">
-<canvas id="bg-canvas"></canvas>
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
@@ -206,7 +202,7 @@ tailwind.config = { theme: { extend: {
 <header class="fixed top-0 inset-x-0 z-50 bg-ink/85 backdrop-blur" style="padding-top:env(safe-area-inset-top,0px)">
   <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4 gap-4">
     <a href="#home" aria-label="BeleBots home" class="inline-flex items-center shrink-0">
-      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-12 w-auto shrink-0" style="transform:translate(-13%, -9%)">
+      <img src="https://i.postimg.cc/cLy97TBd/Fulllogobelebots.png" alt="BeleBots Logo" class="h-12 w-auto shrink-0" style="transform:translateY(7%)">
     </a>
     <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
       <a href="#bots" data-i18n="navBots" class="hover:text-bele transition-colors shrink-0">Our Bots</a>
@@ -330,7 +326,7 @@ tailwind.config = { theme: { extend: {
         <span data-i18n="newsTitle">NEWS</span><br>
         <span data-i18n="newsSub" class="font-medium">and updates:</span>
       </p>
-      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill glow tg-pulse mt-5">
+      <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill mt-5">
         <span class="ic">
           <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </span>
@@ -342,7 +338,7 @@ tailwind.config = { theme: { extend: {
         <span data-i18n="supportTitle">SUPPORT</span><br>
         <span data-i18n="supportSub" class="font-medium">and ask questions:</span>
       </p>
-      <a href="https://t.me/belebots_support" target="_blank" rel="noopener" class="tg pill glow tg-pulse mt-5">
+      <a href="https://t.me/belebots_support" target="_blank" rel="noopener" class="tg pill mt-5">
         <span class="ic">
           <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </span>
@@ -658,70 +654,16 @@ tailwind.config = { theme: { extend: {
           var px = (e.clientX - rect.left) / rect.width, py = (e.clientY - rect.top) / rect.height;
           var rx = (py - .5) * -14, ry = (px - .5) * 14;
           card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateZ(18px) scale3d(1.04,1.04,1.04)';
-          card.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,.6)';
-          glare.style.background = 'radial-gradient(circle at ' + (px*100) + '% ' + (py*100) + '%, rgba(255,255,255,.4), transparent 60%)';
+          glare.style.setProperty('--gx', (px * 100) + '%');
+          glare.style.setProperty('--gy', (py * 100) + '%');
           rafId = null;
         });
       });
       card.addEventListener('mouseleave', function(){
         card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0) scale3d(1,1,1)';
-        card.style.boxShadow = '';
       });
     });
   }
-
-  // ---- Ambient mesh-gradient canvas, reacts to cursor ----
-  (function(){
-    var canvas = document.getElementById('bg-canvas');
-    if (!canvas) return;
-    var ctx = canvas.getContext('2d');
-    var W, H, mx, my, dpr = Math.min(window.devicePixelRatio || 1, 2);
-    function resize(){
-      W = window.innerWidth; H = window.innerHeight;
-      canvas.width = W * dpr; canvas.height = H * dpr;
-      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    resize();
-    mx = W/2; my = H/2;
-    var tx = mx, ty = my;
-    window.addEventListener('resize', resize);
-    window.addEventListener('pointermove', function(e){ tx = e.clientX; ty = e.clientY; }, { passive:true });
-
-    var blobs = [
-      { baseX:.22, baseY:.28, r:.30, c:'rgba(229,9,20,.16)', s:1.0 },
-      { baseX:.8,  baseY:.75, r:.26, c:'rgba(91,28,255,.14)', s:-.8 },
-      { baseX:.65, baseY:.25, r:.20, c:'rgba(14,165,233,.13)', s:.6 }
-    ];
-    var t = 0, raf;
-    function draw(){
-      t += 0.004;
-      mx += (tx - mx) * 0.03; my += (ty - my) * 0.03;
-      ctx.clearRect(0,0,W,H);
-      blobs.forEach(function(b, i){
-        var driftX = Math.sin(t * b.s + i) * 60 + (mx - W/2) * 0.06;
-        var driftY = Math.cos(t * b.s + i) * 60 + (my - H/2) * 0.06;
-        var x = b.baseX * W + driftX, y = b.baseY * H + driftY, r = b.r * Math.max(W,H);
-        var g = ctx.createRadialGradient(x,y,0,x,y,r);
-        g.addColorStop(0, b.c);
-        g.addColorStop(1, 'transparent');
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,W,H);
-      });
-      raf = requestAnimationFrame(draw);
-    }
-    if (reducedMotion) {
-      // Static single paint, no animation loop
-      blobs.forEach(function(b){
-        var x = b.baseX * W, y = b.baseY * H, r = b.r * Math.max(W,H);
-        var g = ctx.createRadialGradient(x,y,0,x,y,r);
-        g.addColorStop(0, b.c); g.addColorStop(1, 'transparent');
-        ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-      });
-    } else {
-      draw();
-    }
-  })();
 </script>
 </body>
 </html>
