@@ -29,8 +29,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 tailwind.config = { theme: { extend: {
   fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'] },
@@ -77,15 +75,17 @@ tailwind.config = { theme: { extend: {
   /* Desktop (Windows) layout parity: keep containers within bounds, mirror mobile's clean flow */
   @media (min-width: 640px) {
     #bots article { margin-left: 0; }
-    section, header .max-w-6xl, main { max-width: 100%; overflow-x: hidden; }
+    section, main { max-width: 100%; overflow-x: hidden; }
     .max-w-6xl { width: 100%; box-sizing: border-box; }
   }
+  /* Language dropdown must float freely over the page — never clipped by header/nav containers */
+  header, header .max-w-6xl, header nav, .lang-wrap { overflow: visible !important; }
 
   @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
-  .rise { opacity:0; animation: rise .9s cubic-bezier(.16,.84,.24,1) forwards; }
+  .rise { opacity:0; animation: rise .9s cubic-bezier(.16,.84,.24,1) forwards; will-change: transform, opacity; }
   .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
   /* GSAP ScrollTrigger now owns the reveal animation; this only hides the element pre-JS */
-  .reveal { opacity:0; visibility:hidden; }
+  .reveal { opacity:0; visibility:hidden; will-change: transform, opacity; }
 
   /* Pure black theme: ambient color orbs removed per design requirement */
   .orb{display:none;}
@@ -95,23 +95,31 @@ tailwind.config = { theme: { extend: {
   #cursor-glow{position:fixed;top:0;left:0;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:9999px;pointer-events:none;z-index:2;background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 70%);transform:translate3d(-9999px,-9999px,0);will-change:transform;}
 
   /* True 3D tilt with dynamic glare (CSS var-driven, no per-frame box-shadow writes) */
-  .tilt{position:relative;transform-style:preserve-3d;will-change:transform;}
+  .tilt{position:relative;transform-style:preserve-3d;will-change:transform,opacity;}
   .tilt-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.35),transparent 60%);transition:opacity .3s ease;mix-blend-mode:overlay;z-index:2;}
   .tilt:hover .tilt-glare{opacity:1;}
 
   /* Layout-shift protection: nav links truncate instead of reflowing on language change */
-  nav{flex-wrap:nowrap;min-width:0;}
+  nav{flex-wrap:nowrap;min-width:0;align-items:center;}
   nav > a[data-i18n]{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:32vw;display:inline-block;}
-  #lang-btn{min-width:2.75rem;box-sizing:border-box;}
+  #lang-btn{min-width:2.75rem;box-sizing:border-box;flex-shrink:0;align-items:center;align-self:center;}
+
+  /* Small mobile: let nav links wrap to a second line instead of squeezing/truncating;
+     the language button stays locked in place and vertically centered regardless of wrap. */
+  @media (max-width: 420px) {
+    nav{flex-wrap:wrap;justify-content:center;row-gap:.5rem;align-items:center;}
+    nav > a[data-i18n]{white-space:normal;overflow:visible;text-overflow:clip;max-width:none;text-align:center;}
+    #lang-btn{flex-shrink:0;align-items:center;}
+  }
 
   /* Liquid shimmer sweep on primary CTA */
-  .shimmer{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.85,.32,1),box-shadow .35s ease;}
+  .shimmer{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.85,.32,1),box-shadow .35s ease;will-change:transform;}
   .shimmer::after{content:'';position:absolute;top:-50%;left:-150%;width:60%;height:200%;background:linear-gradient(100deg,transparent,rgba(229,9,20,.15) 35%,rgba(255,255,255,.55) 50%,rgba(94,28,255,.15) 65%,transparent);transform:skewX(-20deg);animation:shimmerMove 3.2s ease-in-out infinite;pointer-events:none;filter:blur(1px);}
   @keyframes shimmerMove{0%{left:-150%}55%,100%{left:150%}}
   .shimmer:hover{transform:scale(1.06) translateY(-3px);box-shadow:0 14px 40px rgba(229,9,20,.35),0 0 0 1px rgba(255,255,255,.1) inset;}
   .shimmer:active{transform:scale(.97) translateY(0);}
   @media (prefers-reduced-motion: reduce){ .orb,.shimmer::after{animation:none} }
-  .pill { transition: transform .35s cubic-bezier(.22,.85,.32,1), box-shadow .35s ease, background-color .35s ease, border-color .35s ease; will-change: transform; }
+  .pill { transition: transform .35s cubic-bezier(.22,.85,.32,1), box-shadow .35s ease, background-color .35s ease, border-color .35s ease; will-change: transform, opacity; }
   .pill:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,.22); }
   .pill:active { transform: scale(.96); transition-duration:.12s; }
   .glow { position:relative; }
@@ -379,12 +387,12 @@ tailwind.config = { theme: { extend: {
       <span data-i18n="collOur">OUR</span><br>
       <span data-i18n="collCollection">COLLECTION</span><br>
       <span data-i18n="collOf">OF</span> <span data-i18n="collBots" class="text-bele">BOTS</span> 
-      <img src="https://i.postimg.cc/25jPv2CW/Logobelebots.png" alt="BeleBots Logo" class="h-[60px] sm:h-[90px] lg:h-[110px] w-auto inline-block rounded-xl shrink-0" style="margin-left:.5rem;vertical-align:middle;transform:translate(-13%, -9%)">
+      <img src="https://i.postimg.cc/25jPv2CW/Logobelebots.png" alt="BeleBots Logo" loading="lazy" decoding="async" class="h-[60px] sm:h-[90px] lg:h-[110px] w-auto inline-block rounded-xl shrink-0" style="margin-left:.5rem;vertical-align:middle;transform:translate(-13%, -9%)">
     </h2>
   </div>
 
   <article id="saveit-card" class="reveal pill glow tilt mt-16 max-w-md mx-auto sm:mx-0 sm:ml-0 rounded-3xl border border-white/15 bg-white/[0.03] p-6 sm:p-8 flex flex-col items-start min-w-0" style="cursor:pointer;">
-    <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" class="w-[7.2rem] h-[7.2rem] rounded-2xl object-cover shrink-0">
+    <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" loading="lazy" decoding="async" class="w-[7.2rem] h-[7.2rem] rounded-2xl object-cover shrink-0">
     <h3 class="mt-6 text-4xl sm:text-5xl font-black tracking-tight break-words">Save it</h3>
     <p data-i18n="saveItDesc" class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed break-words">
       Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
@@ -415,7 +423,9 @@ tailwind.config = { theme: { extend: {
   © 2026 BELEBOTS. All rights reserved.
 </footer>
 
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script defer>
   // قاموس أسماء زر اللغة
   const buttonTranslations = {
     en: "Language",
@@ -718,7 +728,7 @@ tailwind.config = { theme: { extend: {
       card.appendChild(glare);
       var rafId = null, rect;
       card.style.transition = 'transform .25s cubic-bezier(.22,.85,.32,1), box-shadow .25s ease';
-      card.addEventListener('mouseenter', function(){ rect = card.getBoundingClientRect(); });
+      card.addEventListener('mouseenter', function(){ rect = card.getBoundingClientRect(); }, { passive:true });
       card.addEventListener('mousemove', function(e){
         if (rafId) return;
         rafId = requestAnimationFrame(function(){
@@ -729,10 +739,10 @@ tailwind.config = { theme: { extend: {
           glare.style.setProperty('--gy', (py * 100) + '%');
           rafId = null;
         });
-      });
+      }, { passive:true });
       card.addEventListener('mouseleave', function(){
         card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0) scale3d(1,1,1)';
-      });
+      }, { passive:true });
     });
   }
 </script>
