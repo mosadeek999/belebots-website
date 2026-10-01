@@ -99,8 +99,11 @@ tailwind.config = { theme: { extend: {
   .tilt-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.35),transparent 60%);transition:opacity .3s ease;mix-blend-mode:overlay;z-index:2;}
   .tilt:hover .tilt-glare{opacity:1;}
 
-  /* Nav stays one row at all sizes; #lang-btn never shifts regardless of link text wrapping. */
-  nav{flex-wrap:nowrap;min-width:0;align-items:center;}
+  /* Nav stays one row at all sizes; #lang-btn is rigidly pinned at the far right and never
+     shifts, jumps, or gets pushed — the .lang-wrap consumes any leftover space on its left
+     (margin-left:auto) so its own right-edge position is independent of nav-link text length. */
+  nav{flex-wrap:nowrap;min-width:0;align-items:center;gap:clamp(0.25rem, 2vw, 1.5rem);}
+  .lang-wrap{flex-shrink:0;margin-left:auto;}
   #lang-btn{min-width:2.75rem;box-sizing:border-box;flex-shrink:0;align-items:center;align-self:center;}
 
   /* Desktop/tablet: nav links stay strictly single-line with natural spacing */
@@ -108,16 +111,21 @@ tailwind.config = { theme: { extend: {
     nav > a[data-i18n]{white-space:nowrap;max-width:none;display:inline-block;}
   }
 
-  /* Mobile: don't break the navbar row or push #lang-btn out of place — instead let the
-     text INSIDE each long link stack onto two lines within a capped width. */
+  /* Mobile/tablet: nav-link text absorbs long translations by shrinking gap, padding and font
+     size (clamped) and stacking internally — #lang-btn's position never moves to compensate. */
   @media (max-width: 768px) {
+    nav{gap:clamp(0.25rem, 2vw, 0.75rem);}
     nav > a[data-i18n]{
       max-width:90px;
+      flex-shrink:1;
+      min-width:0;
       white-space:normal;
       overflow:visible;
       text-overflow:clip;
       text-align:center;
       line-height:1.1;
+      padding:clamp(0.15rem, 1vw, 0.25rem) clamp(0.25rem, 1.5vw, 0.5rem);
+      font-size:clamp(0.75rem, 2.5vw, 0.9rem);
       display:inline-block;
     }
     #lang-btn{flex-shrink:0;align-items:center;align-self:center;}
