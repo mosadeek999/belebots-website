@@ -8,8 +8,8 @@
 <title>BeleBots – Official Telegram Bots</title>
 
 <!-- Favicon -->
-<link rel="icon" type="image/jpeg" href="https://i.postimg.cc/XY3nXfhK/12461.jpg">
-<link rel="apple-touch-icon" href="https://i.postimg.cc/XY3nXfhK/12461.jpg">
+<link rel="icon" type="image/png" href="https://i.postimg.cc/gkhnsdYJ/nskht-mn-nskht-mn-dwn-ʿnwan-20261017-125727-0000.png">
+<link rel="apple-touch-icon" href="https://i.postimg.cc/gkhnsdYJ/nskht-mn-nskht-mn-dwn-ʿnwan-20261017-125727-0000.png">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="https://belebots.vercel.app/">
@@ -32,7 +32,7 @@
 <script>
 tailwind.config = { theme: { extend: {
   fontFamily: { sans: ['Montserrat','Helvetica','Arial','sans-serif'] },
-  colors: { ink: '#050505', bele: '#E50914' }
+  colors: { ink: '#050505', bele: '#00B5E2' }
 }}}
 </script>
 
@@ -133,22 +133,22 @@ tailwind.config = { theme: { extend: {
 
   /* Liquid shimmer sweep on primary CTA */
   .shimmer{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.85,.32,1),box-shadow .35s ease;will-change:transform;}
-  .shimmer::after{content:'';position:absolute;top:-50%;left:-150%;width:60%;height:200%;background:linear-gradient(100deg,transparent,rgba(229,9,20,.15) 35%,rgba(255,255,255,.55) 50%,rgba(94,28,255,.15) 65%,transparent);transform:skewX(-20deg);animation:shimmerMove 3.2s ease-in-out infinite;pointer-events:none;filter:blur(1px);}
+  .shimmer::after{content:'';position:absolute;top:-50%;left:-150%;width:60%;height:200%;background:linear-gradient(100deg,transparent,rgba(0,181,226,.15) 35%,rgba(255,255,255,.55) 50%,rgba(94,28,255,.15) 65%,transparent);transform:skewX(-20deg);animation:shimmerMove 3.2s ease-in-out infinite;pointer-events:none;filter:blur(1px);}
   @keyframes shimmerMove{0%{left:-150%}55%,100%{left:150%}}
-  .shimmer:hover{transform:scale(1.06) translateY(-3px);box-shadow:0 14px 40px rgba(229,9,20,.35),0 0 0 1px rgba(255,255,255,.1) inset;}
+  .shimmer:hover{transform:scale(1.06) translateY(-3px);box-shadow:0 14px 40px rgba(0,181,226,.35),0 0 0 1px rgba(255,255,255,.1) inset;}
   .shimmer:active{transform:scale(.97) translateY(0);}
   @media (prefers-reduced-motion: reduce){ .orb,.shimmer::after{animation:none} }
   .pill { transition: transform .35s cubic-bezier(.22,.85,.32,1), box-shadow .35s ease, background-color .35s ease, border-color .35s ease; will-change: transform, opacity; }
   .pill:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,.22); }
   .pill:active { transform: scale(.96); transition-duration:.12s; }
   .glow { position:relative; }
-  .glow:hover { box-shadow: 0 0 36px rgba(229,9,20,.55); border-color:#E50914; }
-  a:focus-visible, button:focus-visible { outline:3px solid #E50914; outline-offset:3px; }
+  .glow:hover { box-shadow: 0 0 36px rgba(0,181,226,.55); border-color:#00B5E2; }
+  a:focus-visible, button:focus-visible { outline:3px solid #00B5E2; outline-offset:3px; }
 
   nav a { position:relative; }
   nav a[href]:not(#lang-btn)::after {
     content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px;
-    background:#E50914; transition:width .3s cubic-bezier(.22,.85,.32,1);
+    background:#00B5E2; transition:width .3s cubic-bezier(.22,.85,.32,1);
   }
   nav a[href]:hover::after { width:100%; }
 
@@ -163,7 +163,7 @@ tailwind.config = { theme: { extend: {
   .social-card { transition: transform .3s cubic-bezier(.22,.85,.32,1), box-shadow .3s ease, background-color .3s ease, border-color .3s ease; }
   .social-card:hover { background-color: rgba(255,255,255,.06); }
   .social-card i { transition: transform .3s cubic-bezier(.22,.85,.32,1), color .3s ease; }
-  .social-card:hover i { transform: scale(1.15) rotate(-6deg); color:#E50914; }
+  .social-card:hover i { transform: scale(1.15) rotate(-6deg); color:#00B5E2; }
 
   .tg {
     display:inline-flex; align-items:center; gap:.47em;
@@ -180,7 +180,7 @@ tailwind.config = { theme: { extend: {
   #lang-dropdown::-webkit-scrollbar { width: 6px; }
   #lang-dropdown::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 8px; }
   #lang-dropdown::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 8px; }
-  #lang-dropdown::-webkit-scrollbar-thumb:hover { background: #E50914; }
+  #lang-dropdown::-webkit-scrollbar-thumb:hover { background: #00B5E2; }
 
   /* Language dropdown: seamless floating panel, no giant backdrop box */
   #lang-dropdown {
@@ -249,9 +249,9 @@ tailwind.config = { theme: { extend: {
 
 <!-- Header -->
 <header class="fixed top-0 inset-x-0 z-50" style="padding-top:env(safe-area-inset-top,0px);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background-color:rgba(5,5,5,0.6);">
-  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4 gap-4" style="display:flex;align-items:center;justify-content:space-between;">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-1.5 gap-4" style="display:flex;align-items:center;justify-content:space-between;">
     <a href="#home" aria-label="BeleBots home" class="inline-flex items-center shrink-0" style="flex-shrink:0;">
-      <img src="https://i.postimg.cc/KYZHyCQh/1790517008866.png" alt="BeleBots Logo" class="h-[4.5rem] sm:h-[6rem] w-auto shrink-0 block">
+      <img src="https://i.postimg.cc/gkhnsdYJ/nskht-mn-nskht-mn-dwn-ʿnwan-20261017-125727-0000.png" alt="BeleBots Logo" class="h-[2.75rem] sm:h-[3.25rem] w-auto shrink-0 block">
     </a>
     <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
       <a href="#bots" data-i18n="navBots" class="hover:text-bele transition-colors shrink-0">Our Bots</a>
@@ -366,7 +366,8 @@ tailwind.config = { theme: { extend: {
 <main>
 <!-- Hero -->
 <section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 pt-36 sm:pt-44 pb-20">
-  <p data-i18n="heroDesc" class="rise d2 mt-10 max-w-3xl text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.35] break-words">
+  <span class="rise d1 inline-block text-white font-black tracking-wide rounded-xl px-5 py-2 text-lg sm:text-2xl uppercase" style="background:#00B5E2;color:#fff;">BELEBOTS</span>
+  <p data-i18n="heroDesc" class="rise d2 mt-6 max-w-3xl text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.35] break-words">
     Useful Telegram bots for work, creativity and everyday needs.
   </p>
 
@@ -406,12 +407,12 @@ tailwind.config = { theme: { extend: {
       <span data-i18n="collOur">OUR</span><br>
       <span data-i18n="collCollection">COLLECTION</span><br>
       <span data-i18n="collOf">OF</span> <span data-i18n="collBots" class="text-bele">BOTS</span> 
-      <img src="https://i.postimg.cc/25jPv2CW/Logobelebots.png" alt="BeleBots Logo" loading="lazy" decoding="async" class="h-[60px] sm:h-[90px] lg:h-[110px] w-auto inline-block rounded-xl shrink-0" style="margin-left:.5rem;vertical-align:middle;transform:translate(-13%, -9%)">
+      <img src="https://i.postimg.cc/gkhnsdYJ/nskht-mn-nskht-mn-dwn-ʿnwan-20261017-125727-0000.png" alt="BeleBots Logo" loading="lazy" decoding="async" class="h-[60px] sm:h-[90px] lg:h-[110px] w-auto inline-block rounded-xl shrink-0" style="margin-left:.5rem;vertical-align:middle;transform:translate(-13%, -9%)">
     </h2>
   </div>
 
   <article id="saveit-card" class="reveal pill glow tilt mt-16 max-w-md mx-auto sm:mx-0 sm:ml-0 rounded-3xl border border-white/15 bg-white/[0.03] p-6 sm:p-8 flex flex-col items-start min-w-0" style="cursor:pointer;">
-    <img src="https://i.postimg.cc/9fxsBZM5/Round-Photo-Sep242026-170631.png" alt="Save it Logo" loading="lazy" decoding="async" class="w-[7.2rem] h-[7.2rem] rounded-2xl object-cover shrink-0">
+    <img src="https://i.postimg.cc/gkhnsdYJ/nskht-mn-nskht-mn-dwn-ʿnwan-20261017-125727-0000.png" alt="Save it Logo" loading="lazy" decoding="async" class="w-[7.2rem] h-[7.2rem] rounded-2xl object-cover shrink-0">
     <h3 class="mt-6 text-4xl sm:text-5xl font-black tracking-tight break-words">Save it</h3>
     <p data-i18n="saveItDesc" class="mt-4 text-base sm:text-lg text-white/75 leading-relaxed break-words">
       Deep-search online stores to discover hidden discounts, compare prices, and save money on every purchase.
