@@ -175,7 +175,7 @@ tailwind.config = { theme: { extend: {
     flex-shrink: 0 !important;
   }
   .tg .ic { width:1.33em; height:1.33em; border-radius:9999px; background:#000; display:flex; align-items:center; justify-content:center; flex-shrink:0 !important; }
-  .tg .ic svg { width:58%; height:58%; }
+  .tg .ic svg { width:78%; height:78%; }
 
   /* Large BELEBOTS hero badge */
   .bele-badge {
@@ -183,7 +183,7 @@ tailwind.config = { theme: { extend: {
     background:#00B5E2; color:#fff;
     font-family:'Montserrat',Helvetica,Arial,sans-serif;
     font-weight:900; letter-spacing:.04em; line-height:1;
-    font-size:clamp(1.2rem, 5.5vw, 2.75rem);
+    font-size:clamp(1.5rem, 6.875vw, 3.4375rem);
     padding:.45em .9em;
     border-radius:0;
     box-shadow:0 5px 20px rgba(0,181,226,.35);
@@ -243,6 +243,7 @@ tailwind.config = { theme: { extend: {
     line-height: 1;
   }
   #lang-btn svg { flex-shrink: 0; }
+  @media (min-width: 768px) { #lang-btn { padding-left: 1.25rem !important; padding-right: 1.25rem !important; gap: .55rem; width: 9.5rem !important; min-width: 9.5rem !important; max-width: 9.5rem !important; } }
   #lang-arrow { transition: transform .3s cubic-bezier(.22,.85,.32,1); }
   .lang-wrap { max-width: calc(100vw - 2.5rem); }
 
@@ -263,7 +264,7 @@ tailwind.config = { theme: { extend: {
 <header class="fixed top-0 inset-x-0 z-50" style="padding-top:env(safe-area-inset-top,0px);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background-color:rgba(5,5,5,0.6);">
   <div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 py-3 gap-4" style="display:flex;align-items:center;justify-content:space-between;">
     <a href="#home" aria-label="BeleBots home" class="inline-flex items-center shrink-0" style="flex-shrink:0;margin-left:-.6rem;">
-      <img src="https://i.postimg.cc/T2b6HJ4z/1792328058446.png" alt="BeleBots Logo" class="h-9 sm:h-10 w-auto shrink-0 block">
+      <img src="https://i.postimg.cc/T2b6HJ4z/1792328058446.png" alt="BeleBots Logo" class="h-[2.7rem] sm:h-[3rem] w-auto shrink-0 block">
     </a>
     <nav class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
       <a href="#bots" data-i18n="navBots" class="hover:text-bele transition-colors shrink-0">Our Bots</a>
@@ -394,7 +395,7 @@ tailwind.config = { theme: { extend: {
       </p>
       <a href="https://t.me/belebots" target="_blank" rel="noopener" class="tg pill shimmer mt-5">
         <span class="ic">
-          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          <svg viewBox="2.25 4.05 16 16" fill="#fff" aria-hidden="true"><path d="M16.906 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         </span>
         <span>@belebots</span>
       </a>
@@ -406,7 +407,7 @@ tailwind.config = { theme: { extend: {
       </p>
       <a href="https://t.me/belebots_support" target="_blank" rel="noopener" class="tg pill shimmer mt-5">
         <span class="ic">
-          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          <svg viewBox="2.25 4.05 16 16" fill="#fff" aria-hidden="true"><path d="M16.906 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         </span>
         <span>@belebots_support</span>
       </a>
@@ -449,7 +450,7 @@ tailwind.config = { theme: { extend: {
     <li class="reveal" style="--i:2"><a class="pill glow tilt social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://instagram.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-instagram text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Instagram</span></a></li>
     <li class="reveal" style="--i:3"><a class="pill glow tilt social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://facebook.com/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Facebook</span></a></li>
     <li class="reveal" style="--i:4"><a class="pill glow tilt social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://threads.net/@belebots" target="_blank" rel="noopener"><i class="fa-brands fa-threads text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Threads</span></a></li>
-    <li class="reveal" style="--i:5"><a class="pill glow tilt social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://linkedin.com/company/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">LinkedIn</span></a></li>
+    <li class="reveal" style="--i:5"><a class="pill glow tilt social-card flex items-center gap-3 sm:gap-4 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4" href="https://t.me/belebots" target="_blank" rel="noopener"><i class="fa-brands fa-telegram text-xl sm:text-2xl w-6 sm:w-7 text-center shrink-0"></i><span class="font-semibold text-sm sm:text-base leading-tight">Telegram</span></a></li>
   </ul>
 </section>
 </main>
