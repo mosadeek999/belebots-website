@@ -20,7 +20,7 @@
 <meta name="author" content="BeleBots">
 <meta name="robots" content="index, follow, max-image-preview:large">
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@600;900&display=swap" rel="stylesheet">
@@ -168,16 +168,17 @@ tailwind.config = { theme: { extend: {
   .social-card:hover .tg-raw { transform: scale(1.15) rotate(-6deg); color:#00B5E2; }
 
   .tg {
-    display:inline-flex; align-items:center; gap:.47em;
+    --tg-base:clamp(23px, 6.9vw, 39.1px);
+    display:inline-flex; align-items:center; gap:calc(.42 * var(--tg-base));
     background:#fff; color:#000; border-radius:9999px;
-    padding:.4em .8em .4em .45em;
+    padding:calc(.28 * var(--tg-base)) calc(.62 * var(--tg-base)) calc(.28 * var(--tg-base)) calc(.36 * var(--tg-base));
     font-family:'Montserrat',Helvetica,Arial,sans-serif;
-    font-weight:800; letter-spacing:-.01em; line-height:1;
-    font-size:clamp(23px, 6.9vw, 39.1px);
+    font-weight:620; letter-spacing:-.01em; line-height:1;
+    font-size:calc(.83 * var(--tg-base));
     flex-shrink: 0 !important;
   }
-  .tg .ic { width:1.33em; height:1.33em; border-radius:9999px; background:#000; display:flex; align-items:center; justify-content:center; flex-shrink:0 !important; padding:0; margin:0; }
-  .tg .ic svg { width:.902em; height:.902em; display:block; margin:0; padding:0; position:static; }
+  .tg .ic { width:calc(1.33 * var(--tg-base)); height:calc(1.33 * var(--tg-base)); border-radius:9999px; background:#000; display:flex; align-items:center; justify-content:center; flex-shrink:0 !important; padding:0; margin:0; }
+  .tg .ic svg { width:calc(.902 * var(--tg-base)); height:calc(.902 * var(--tg-base)); display:block; margin:0; padding:0; position:static; }
 
   /* Large BELEBOTS hero badge */
   .bele-badge {
